@@ -8,39 +8,20 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="رصد" />
   <link rel="apple-touch-icon" href="Icon.png" />
-  <title>رصد — إدارة مالية شهرية</title>
+  <title>رصد — إدارة مالية ذكية</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;900&family=Tajawal:wght@500;700;800;900&display=swap" rel="stylesheet" />
   <link rel="manifest" href="manifest.json" />
   <style>
     :root{
-      --gold-0:#fff8e7;
-      --gold-1:#f5d770;
-      --gold-2:#c9a030;
-      --gold-3:#8b6410;
-      --gold-4:#4a3205;
-      --bg:#05080f;
-      --bg-2:#080d18;
-      --bg-3:#0d1525;
-      --bg-4:#121c30;
-      --bg-5:#1a2640;
-      --text:#f2ede0;
-      --muted:#a8b0c0;
-      --faint:#68708a;
-      --line:rgba(197,160,48,.12);
-      --green:#00c896;
-      --red:#ff4d5e;
-      --blue:#3d8eff;
-      --amber:#ffb020;
-      --radius-xl:28px;
-      --radius-lg:22px;
-      --radius-md:16px;
-      --radius-sm:12px;
-      --safe-top:env(safe-area-inset-top, 44px);
-      --safe-bottom:env(safe-area-inset-bottom, 34px);
+      --gold-0:#fff8e7;--gold-1:#f5d770;--gold-2:#c9a030;--gold-3:#8b6410;--gold-4:#4a3205;
+      --bg:#05080f;--bg-2:#080d18;--bg-3:#0d1525;--bg-4:#121c30;--bg-5:#1a2640;
+      --text:#f2ede0;--muted:#a8b0c0;--faint:#68708a;--line:rgba(197,160,48,.12);
+      --green:#00c896;--red:#ff4d5e;--blue:#3d8eff;--amber:#ffb020;
+      --radius-xl:28px;--radius-lg:22px;--radius-md:16px;--radius-sm:12px;
+      --safe-top:env(safe-area-inset-top, 44px);--safe-bottom:env(safe-area-inset-bottom, 34px);
     }
-
     *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
     html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:'Cairo',sans-serif;overflow:hidden}
     body{background:radial-gradient(circle at 50% -20%,rgba(197,160,48,.12),transparent 40%),var(--bg)}
@@ -52,8 +33,29 @@
     label{display:flex;flex-direction:column;gap:7px;color:var(--muted);font-size:12px;font-weight:800}
     textarea{resize:none;line-height:1.6}
 
-    .screen{position:fixed;inset:0;display:none;overflow:auto;padding:calc(var(--safe-top) + 20px) 20px calc(var(--safe-bottom) + 20px)}
+    @keyframes slideUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+    @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+
+    .screen{position:fixed;inset:0;display:none;overflow:auto;padding:calc(var(--safe-top) + 20px) 20px calc(var(--safe-bottom) + 20px);animation:slideUp .5s ease}
     .screen.active{display:block}
+    .splash-screen{background:linear-gradient(135deg,#0a1528 0%,#05080f 50%,#0d1c38 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px}
+    .splash-logo{width:120px;height:120px;border-radius:50%;background:linear-gradient(135deg,var(--gold-0),var(--gold-1),var(--gold-2));display:grid;place-items:center;color:#1a0e00;font-family:'Tajawal',sans-serif;font-size:60px;font-weight:900;box-shadow:0 30px 80px rgba(201,160,48,.4);animation:pulse 2s ease-in-out infinite}
+    .splash-text{text-align:center;animation:fadeIn 1s ease .3s backwards}
+    .splash-text h1{font-family:'Tajawal',sans-serif;font-size:32px;font-weight:900;margin-bottom:8px}
+    .splash-text p{color:var(--muted);font-size:14px}
+
+    .pin-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:30px}
+    .pin-title{text-align:center;font-family:'Tajawal',sans-serif;font-size:28px;font-weight:900}
+    .pin-dots{display:flex;gap:15px;justify-content:center}
+    .pin-dot{width:16px;height:16px;border-radius:50%;background:var(--bg-4);border:2px solid var(--line);transition:.2s}
+    .pin-dot.filled{background:var(--gold-2);border-color:var(--gold-1)}
+    .pin-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;max-width:280px}
+    .pin-btn{aspect-ratio:1;border-radius:18px;background:var(--bg-3);border:1px solid rgba(255,255,255,.08);color:var(--text);font-size:24px;font-weight:900;transition:.1s}
+    .pin-btn:active{transform:scale(.95);background:var(--bg-4)}
+    .pin-btn.delete{grid-column:3;background:rgba(255,77,94,.1);color:var(--red)}
+
     .auth-screen{align-content:center;justify-items:center}
     .brand-card{text-align:center;margin:0 auto 24px;max-width:360px}
     .coin-logo{width:88px;height:88px;margin:0 auto 16px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 32% 25%,var(--gold-0),var(--gold-1) 38%,var(--gold-3));color:#1b1000;font-family:'Tajawal',sans-serif;font-size:42px;font-weight:900;box-shadow:0 18px 55px rgba(201,160,48,.32)}
@@ -62,7 +64,7 @@
     .auth-card,.panel,.modal-card{background:rgba(8,13,24,.88);border:1px solid var(--line);border-radius:var(--radius-xl);box-shadow:0 25px 70px rgba(0,0,0,.45);backdrop-filter:blur(24px)}
     .auth-card{width:min(430px,100%);margin:auto;padding:16px}
     .tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:var(--bg-3);border-radius:var(--radius-md);padding:5px;margin-bottom:16px}
-    .tab{padding:11px;border-radius:12px;background:transparent;color:var(--faint);font-weight:900}
+    .tab{padding:11px;border-radius:12px;background:transparent;color:var(--faint);font-weight:900;transition:.2s}
     .tab.active{background:linear-gradient(135deg,var(--gold-4),var(--gold-2));color:#1a0e00}
     .form{display:none;flex-direction:column;gap:13px}
     .form.active{display:flex}
@@ -80,7 +82,7 @@
     .onboarding-screen{background:var(--bg);padding-bottom:120px}
     .top-line{display:flex;justify-content:space-between;align-items:center;color:var(--faint);font-weight:800;font-size:12px;margin-bottom:16px}
     .progress-dots{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:26px}
-    .progress-dots span{height:5px;border-radius:99px;background:var(--bg-4)}
+    .progress-dots span{height:5px;border-radius:99px;background:var(--bg-4);transition:.3s}
     .progress-dots span.active{background:var(--gold-2)}
     .onboarding-body{display:flex;flex-direction:column;gap:18px}
     .onboarding-body h1{font-family:'Tajawal',sans-serif;font-size:30px;font-weight:900;line-height:1.25}
@@ -90,30 +92,70 @@
     .app-screen{position:fixed;inset:0;display:none;overflow:auto;padding:calc(var(--safe-top) + 12px) 16px calc(86px + var(--safe-bottom));background:var(--bg)}
     .app-screen.active{display:block}
     .app-header{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:12px}
-    .app-header h2{font-family:'Tajawal',sans-serif;font-size:22px;font-weight:900}.muted{color:var(--faint);font-size:12px}.muted-text{color:var(--muted);font-size:13px;line-height:1.8}
-    .header-actions{display:flex;align-items:center;gap:8px}.avatar{width:43px;height:43px;border-radius:14px;background:linear-gradient(135deg,var(--gold-4),var(--gold-2));color:#1a0e00;font-family:'Tajawal',sans-serif;font-weight:900;font-size:18px}
+    .app-header h2{font-family:'Tajawal',sans-serif;font-size:22px;font-weight:900}
+    .muted{color:var(--faint);font-size:12px}.muted-text{color:var(--muted);font-size:13px;line-height:1.8}
+    .header-actions{display:flex;align-items:center;gap:8px}
+    .avatar{width:43px;height:43px;border-radius:14px;background:linear-gradient(135deg,var(--gold-4),var(--gold-2));color:#1a0e00;font-family:'Tajawal',sans-serif;font-weight:900;font-size:18px;display:grid;place-items:center;cursor:pointer;transition:.2s}
+    .avatar:active{transform:scale(.95)}
     .month-tabs{display:flex;gap:8px;overflow:auto;margin:8px -16px 12px;padding:0 16px 4px;scrollbar-width:none}.month-tabs::-webkit-scrollbar{display:none}
-    .month-tab{flex:0 0 auto;padding:9px 15px;border-radius:99px;background:var(--bg-3);color:var(--faint);border:1px solid rgba(255,255,255,.05);font-weight:800;font-size:12px}
+    .month-tab{flex:0 0 auto;padding:9px 15px;border-radius:99px;background:var(--bg-3);color:var(--faint);border:1px solid rgba(255,255,255,.05);font-weight:800;font-size:12px;transition:.2s}
     .month-tab.active{background:rgba(201,160,48,.13);border-color:var(--line);color:var(--gold-1)}
     .page{display:none;animation:fadeUp .25s ease}.page.active{display:block}@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
     .hero-card{background:linear-gradient(145deg,#0d1c38,#0a1528 60%,#080f1c);border:1px solid var(--line);border-radius:var(--radius-xl);padding:18px;box-shadow:0 24px 70px rgba(0,0,0,.5);overflow:hidden;position:relative}.hero-card:before{content:"";position:absolute;inset:auto -80px -100px auto;width:220px;height:220px;border-radius:50%;background:rgba(201,160,48,.08)}
     .hero-top{position:relative;display:flex;justify-content:space-between;gap:12px;margin-bottom:16px}.eyebrow{color:var(--faint);font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.6px}.hero-top h1{font-family:'Tajawal',sans-serif;font-size:22px;font-weight:900;margin-top:4px}
     .balance-box{position:relative;background:rgba(5,8,15,.42);border:1px solid rgba(255,255,255,.06);border-radius:22px;padding:16px;margin-bottom:12px}.balance-box span,.summary span{display:block;color:var(--faint);font-size:11px;font-weight:800}.balance-box strong{display:block;font-family:'Tajawal',sans-serif;font-size:40px;font-weight:900;margin:4px 0;color:var(--gold-1)}.balance-box small{color:var(--muted)}
-    .summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.summary{background:var(--bg-3);border:1px solid rgba(255,255,255,.05);border-radius:16px;padding:12px}.summary strong{display:block;margin-top:6px;font-family:'Tajawal',sans-serif;font-size:19px}.summary.income strong{color:var(--green)}.summary.expense strong{color:var(--red)}
-    .quick-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:14px 0}.quick-actions button{min-height:74px;border-radius:18px;background:var(--bg-2);border:1px solid rgba(255,255,255,.06);color:var(--text);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:6px}.quick-actions span{font-size:11px;color:var(--muted);font-weight:800}.quick-actions strong{color:var(--gold-1);font-size:13px}
-    .panel{padding:15px;margin:12px 0}.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}.panel h3{font-size:15px}.smart-text{font-size:13px;line-height:1.9;color:var(--muted)}
-    .list{display:flex;flex-direction:column;gap:8px}.tx{display:flex;align-items:center;gap:11px;background:var(--bg-3);border:1px solid rgba(255,255,255,.05);border-radius:16px;padding:12px}.tx-icon{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:rgba(201,160,48,.1);font-size:18px}.tx-info{flex:1;min-width:0}.tx-info strong{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tx-info span{display:block;color:var(--faint);font-size:11px;margin-top:3px}.tx-amount{text-align:left;font-family:'Tajawal',sans-serif;font-weight:900}.tx-amount.income{color:var(--green)}.tx-amount.expense{color:var(--red)}.tx-actions{display:flex;gap:6px;margin-top:8px}.mini-action{padding:6px 9px;border-radius:10px;background:var(--bg-4);color:var(--muted);font-size:11px}.mini-action.delete{color:var(--red);background:rgba(255,77,94,.08)}.empty{padding:22px;text-align:center;color:var(--faint);font-size:13px;line-height:1.8}
-    .page-title{margin:16px 0}.page-title h1{font-family:'Tajawal',sans-serif;font-size:26px;font-weight:900}.page-title p{color:var(--muted);font-size:13px;margin-top:6px;line-height:1.7}.split-title{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}.inline-actions{display:flex;gap:6px;flex-shrink:0}.filter-row{display:flex;gap:8px;overflow:auto;margin-bottom:12px}.filter{padding:9px 13px;border-radius:99px;background:var(--bg-3);color:var(--faint);border:1px solid rgba(255,255,255,.05);font-weight:800;font-size:12px}.filter.active{background:rgba(201,160,48,.13);border-color:var(--line);color:var(--gold-1)}.large-list{padding-bottom:20px}
-    .health-card{display:grid;gap:12px}.health-main{padding:16px;border-radius:18px;border:1px solid rgba(255,255,255,.06);background:var(--bg-3)}.health-main.good{border-color:rgba(0,200,150,.25);background:rgba(0,200,150,.08)}.health-main.warn{border-color:rgba(255,176,32,.25);background:rgba(255,176,32,.08)}.health-main.bad{border-color:rgba(255,77,94,.25);background:rgba(255,77,94,.08)}.health-main strong{font-family:'Tajawal',sans-serif;font-size:22px}.health-main p{color:var(--muted);line-height:1.8;font-size:13px;margin-top:6px}.bar{height:9px;background:var(--bg-4);border-radius:99px;overflow:hidden}.bar span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--amber),var(--red));border-radius:99px}.category-summary{display:grid;gap:8px}.cat-row{display:flex;justify-content:space-between;align-items:center;background:var(--bg-3);border:1px solid rgba(255,255,255,.05);border-radius:14px;padding:11px}.cat-row span{color:var(--muted);font-size:13px}.cat-row strong{font-family:'Tajawal',sans-serif;font-size:15px}
+    .summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.summary{background:var(--bg-3);border:1px solid rgba(255,255,255,.05);border-radius:16px;padding:12px;transition:.2s}.summary strong{display:block;margin-top:6px;font-family:'Tajawal',sans-serif;font-size:19px}.summary.income strong{color:var(--green)}.summary.expense strong{color:var(--red)}
+    .quick-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:14px 0}.quick-actions button{min-height:74px;border-radius:18px;background:var(--bg-2);border:1px solid rgba(255,255,255,.06);color:var(--text);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:6px;transition:.2s}.quick-actions button:active{transform:scale(.95)}.quick-actions span{font-size:11px;color:var(--muted);font-weight:800}.quick-actions strong{color:var(--gold-1);font-size:13px}
+    .panel{padding:15px;margin:12px 0;animation:slideUp .4s ease}.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}.panel h3{font-size:15px}.smart-text{font-size:13px;line-height:1.9;color:var(--muted)}
+    .list{display:flex;flex-direction:column;gap:8px}.tx{display:flex;align-items:center;gap:11px;background:var(--bg-3);border:1px solid rgba(255,255,255,.05);border-radius:16px;padding:12px;transition:.2s;animation:slideUp .3s ease}.tx:active{background:var(--bg-4)}.tx-icon{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:rgba(201,160,48,.1);font-size:18px}.tx-info{flex:1;min-width:0}.tx-info strong{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tx-info span{display:block;color:var(--faint);font-size:11px;margin-top:3px}.tx-amount{text-align:left;font-family:'Tajawal',sans-serif;font-weight:900}.tx-amount.income{color:var(--green)}.tx-amount.expense{color:var(--red)}.tx-actions{display:flex;gap:6px;margin-top:8px}.mini-action{padding:6px 9px;border-radius:10px;background:var(--bg-4);color:var(--muted);font-size:11px;transition:.2s}.mini-action:active{transform:scale(.95)}.mini-action.delete{color:var(--red);background:rgba(255,77,94,.08)}.empty{padding:22px;text-align:center;color:var(--faint);font-size:13px;line-height:1.8}
+    .page-title{margin:16px 0}.page-title h1{font-family:'Tajawal',sans-serif;font-size:26px;font-weight:900}.page-title p{color:var(--muted);font-size:13px;margin-top:6px;line-height:1.7}.split-title{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}.inline-actions{display:flex;gap:6px;flex-shrink:0}.filter-row{display:flex;gap:8px;overflow:auto;margin-bottom:12px}.filter{padding:9px 13px;border-radius:99px;background:var(--bg-3);color:var(--faint);border:1px solid rgba(255,255,255,.05);font-weight:800;font-size:12px;transition:.2s}.filter.active{background:rgba(201,160,48,.13);border-color:var(--line);color:var(--gold-1)}.large-list{padding-bottom:20px}
+    .health-card{display:grid;gap:12px}.health-main{padding:16px;border-radius:18px;border:1px solid rgba(255,255,255,.06);background:var(--bg-3)}.health-main.good{border-color:rgba(0,200,150,.25);background:rgba(0,200,150,.08)}.health-main.warn{border-color:rgba(255,176,32,.25);background:rgba(255,176,32,.08)}.health-main.bad{border-color:rgba(255,77,94,.25);background:rgba(255,77,94,.08)}.health-main strong{font-family:'Tajawal',sans-serif;font-size:22px}.health-main p{color:var(--muted);line-height:1.8;font-size:13px;margin-top:6px}.bar{height:9px;background:var(--bg-4);border-radius:99px;overflow:hidden;margin-top:10px}.bar span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--amber),var(--red));border-radius:99px;transition:width .5s ease}
+    .category-summary{display:grid;gap:8px}.cat-row{display:flex;justify-content:space-between;align-items:center;background:var(--bg-3);border:1px solid rgba(255,255,255,.05);border-radius:14px;padding:11px;animation:slideUp .3s ease}.cat-row span{color:var(--muted);font-size:13px}.cat-row strong{font-family:'Tajawal',sans-serif;font-size:15px}
+    .chart-container{width:100%;height:200px;display:flex;align-items:center;justify-content:center;margin:15px 0}
+    .pie-chart{width:150px;height:150px;border-radius:50%;background:conic-gradient(var(--green) 0deg 90deg, var(--blue) 90deg 180deg, var(--amber) 180deg 270deg, var(--red) 270deg 360deg);position:relative;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+    .pie-chart::after{content:"";position:absolute;inset:15px;border-radius:50%;background:var(--bg);display:grid;place-items:center}
+    .wealth-card{background:linear-gradient(135deg,rgba(0,200,150,.15),rgba(61,142,255,.15));border:1px solid rgba(0,200,150,.25);border-radius:var(--radius-lg);padding:16px;margin:12px 0}
+    .wealth-card strong{display:block;font-family:'Tajawal',sans-serif;font-size:28px;margin:8px 0;color:var(--green)}
+    .wealth-card span{display:block;color:var(--muted);font-size:12px;margin-top:6px}
+    .minute-value{background:linear-gradient(135deg,rgba(255,176,32,.15),rgba(255,77,94,.15));border:1px solid rgba(255,176,32,.25);border-radius:var(--radius-lg);padding:16px;margin:12px 0;text-align:center}
+    .minute-value strong{display:block;font-family:'Tajawal',sans-serif;font-size:24px;color:var(--amber);margin:8px 0}
+    .minute-value span{color:var(--muted);font-size:12px}
+    .goal-card{background:var(--bg-3);border:1px solid rgba(255,255,255,.05);border-radius:var(--radius-lg);padding:14px;margin:10px 0}
+    .goal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+    .goal-header strong{font-size:14px}
+    .goal-header span{color:var(--faint);font-size:11px}
+    .goal-progress{width:100%;height:8px;background:var(--bg-4);border-radius:99px;overflow:hidden}
+    .goal-progress span{display:block;height:100%;background:linear-gradient(90deg,var(--green),var(--gold-1));border-radius:99px;width:0;transition:width .5s ease}
+    .debt-card{background:rgba(255,77,94,.08);border:1px solid rgba(255,77,94,.25);border-radius:var(--radius-lg);padding:14px;margin:10px 0}
+    .debt-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+    .debt-header strong{color:var(--red);font-size:14px}
+    .debt-header span{color:var(--faint);font-size:11px}
+    .debt-amount{font-family:'Tajawal',sans-serif;font-size:18px;color:var(--red);font-weight:900;margin:6px 0}
+    .debt-actions{display:flex;gap:6px;margin-top:8px}
+    .debt-actions button{flex:1;padding:8px;border-radius:10px;background:var(--bg-4);color:var(--red);font-size:11px;font-weight:800}
     .settings-panel{display:flex;flex-direction:column;gap:14px}.row-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    .bottom-nav{position:fixed;left:0;right:0;bottom:0;height:calc(72px + var(--safe-bottom));padding:6px 10px var(--safe-bottom);display:grid;grid-template-columns:1fr 1fr 66px 1fr 1fr;align-items:center;background:rgba(8,13,24,.94);border-top:1px solid var(--line);backdrop-filter:blur(24px);z-index:20}.nav-btn{height:54px;background:transparent;color:var(--faint);font-size:11px;font-weight:900}.nav-btn.active{color:var(--gold-1)}.fab{width:58px;height:58px;border-radius:20px;background:linear-gradient(135deg,var(--gold-3),var(--gold-2),var(--gold-1));color:#1a0e00;font-size:32px;font-weight:900;box-shadow:0 15px 38px rgba(201,160,48,.32);margin-top:-22px}
-    .modal{position:fixed;inset:0;display:none;z-index:40}.modal.active{display:block}.modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.68);backdrop-filter:blur(7px)}.modal-card{position:absolute;left:12px;right:12px;bottom:calc(var(--safe-bottom) + 10px);max-height:88vh;overflow:auto;padding:16px;border-radius:28px 28px 24px 24px}.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.modal-head h2{font-family:'Tajawal',sans-serif;font-size:22px}.x-btn{width:38px;height:38px;border-radius:12px;background:var(--bg-4);color:var(--text);font-size:24px}.two-cols{display:grid;grid-template-columns:1fr 1fr;gap:10px}.modal-form{display:none}.modal-form.active{display:flex}
+    .bottom-nav{position:fixed;left:0;right:0;bottom:0;height:calc(72px + var(--safe-bottom));padding:6px 10px var(--safe-bottom);display:grid;grid-template-columns:1fr 1fr 66px 1fr 1fr;align-items:center;background:rgba(8,13,24,.94);border-top:1px solid var(--line);backdrop-filter:blur(24px);z-index:20}.nav-btn{height:54px;background:transparent;color:var(--faint);font-size:11px;font-weight:900;transition:.2s}.nav-btn.active{color:var(--gold-1)}.fab{width:58px;height:58px;border-radius:20px;background:linear-gradient(135deg,var(--gold-3),var(--gold-2),var(--gold-1));color:#1a0e00;font-size:32px;font-weight:900;box-shadow:0 15px 38px rgba(201,160,48,.32);margin-top:-22px;transition:.2s}.fab:active{transform:scale(.95)}
+    .modal{position:fixed;inset:0;display:none;z-index:40}.modal.active{display:block}.modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.68);backdrop-filter:blur(7px)}.modal-card{position:absolute;left:12px;right:12px;bottom:calc(var(--safe-bottom) + 10px);max-height:88vh;overflow:auto;padding:16px;border-radius:28px 28px 24px 24px;animation:slideUp .3s ease}.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.modal-head h2{font-family:'Tajawal',sans-serif;font-size:22px}.x-btn{width:38px;height:38px;border-radius:12px;background:var(--bg-4);color:var(--text);font-size:24px;transition:.2s}.x-btn:active{transform:scale(.95)}.two-cols{display:grid;grid-template-columns:1fr 1fr;gap:10px}.modal-form{display:none}.modal-form.active{display:flex}
     @media(min-width:760px){.app-screen{max-width:520px;left:50%;transform:translateX(-50%);border-inline:1px solid rgba(255,255,255,.05)}.bottom-nav{max-width:520px;left:50%;transform:translateX(-50%)}.modal-card{max-width:500px;left:50%;right:auto;transform:translateX(-50%);width:calc(100% - 24px)}}
     @media(max-width:390px){.quick-actions{grid-template-columns:repeat(2,1fr)}.summary-grid{grid-template-columns:1fr}.two-cols,.row-actions{grid-template-columns:1fr}.split-title{display:block}.inline-actions{margin-top:10px}}
   </style>
 </head>
 <body>
-  <main id="auth-screen" class="screen auth-screen active">
+  <main id="splash-screen" class="screen splash-screen active">
+    <div class="splash-logo">ر</div>
+    <div class="splash-text">
+      <h1>رصد</h1>
+      <p>إدارة مالية ذكية وآمنة</p>
+    </div>
+  </main>
+
+  <main id="pin-screen" class="screen pin-screen">
+    <h1 class="pin-title">أدخل الرقم السري</h1>
+    <div class="pin-dots" id="pin-dots"></div>
+    <div class="pin-pad" id="pin-pad"></div>
+  </main>
+
+  <main id="auth-screen" class="screen auth-screen">
     <section class="brand-card">
       <div class="coin-logo">ر</div>
       <h1>رصد</h1>
@@ -149,6 +191,9 @@
         </label>
         <label>تأكيد كلمة المرور
           <input id="signup-password2" type="password" placeholder="أعد كتابة كلمة المرور" minlength="6" required />
+        </label>
+        <label>الرقم السري (4 أرقام)
+          <input id="signup-pin" type="text" placeholder="0000" maxlength="4" inputmode="numeric" required />
         </label>
         <p id="signup-error" class="error"></p>
         <button class="primary-btn" type="submit">إنشاء الحساب</button>
@@ -232,6 +277,41 @@
         <div class="panel-head"><h3>حسب النوع</h3></div>
         <div id="category-summary" class="category-summary"></div>
       </section>
+      <section class="panel">
+        <div class="panel-head"><h3>توزيع المصاريف</h3></div>
+        <div class="chart-container">
+          <div class="pie-chart"></div>
+        </div>
+      </section>
+    </section>
+
+    <section id="page-wealth" class="page">
+      <div class="page-title">
+        <h1>ثروتي</h1>
+        <p>صورة شاملة عن وضعك المالي الحالي</p>
+      </div>
+      <section class="panel">
+        <div class="wealth-card">
+          <span>إجمالي ثروتك الآن</span>
+          <strong id="total-wealth">0</strong>
+          <span id="wealth-note">مجموع الدخل والمصاريف في كل الشهور</span>
+        </div>
+      </section>
+      <section class="panel">
+        <div class="minute-value">
+          <span>قيمة دقيقتك</span>
+          <strong id="minute-value">0</strong>
+          <span>بناءً على دخلك الشهري</span>
+        </div>
+      </section>
+      <section class="panel">
+        <div class="panel-head"><h3>أهداف الادخار</h3><button class="link-btn" type="button" onclick="openModal('goal')">+ هدف</button></div>
+        <div id="goals-list" class="list"></div>
+      </section>
+      <section class="panel">
+        <div class="panel-head"><h3>الفلوس اللي ليك عند الناس</h3><button class="link-btn" type="button" onclick="openModal('debt')">+ إضافة</button></div>
+        <div id="debts-list" class="list"></div>
+      </section>
     </section>
 
     <section id="page-transactions" class="page">
@@ -262,17 +342,20 @@
         <label>العملة الافتراضية للعرض
           <select id="settings-default-currency"></select>
         </label>
+        <label>سعر الصرف (للعملة الموحدة)
+          <input id="settings-exchange-rate" type="number" min="0" step="0.01" placeholder="مثلاً 1" />
+        </label>
         <label>ميزانية الشهر المختار
           <input id="settings-budget" type="number" min="0" step="0.01" />
         </label>
         <div class="row-actions">
           <button class="primary-btn" type="button" onclick="saveSettings()">حفظ التعديلات</button>
+          <button class="secondary-btn" type="button" onclick="changePIN()">تغيير الرقم السري</button>
+        </div>
+        <div class="row-actions">
+          <button class="secondary-btn" type="button" onclick="exportData()">تصدير البيانات</button>
           <button class="secondary-btn" type="button" onclick="logoutUser()">تسجيل الخروج</button>
         </div>
-      </section>
-      <section class="panel">
-        <div class="panel-head"><h3>معلومة مهمة</h3></div>
-        <p class="muted-text">هذه النسخة تحفظ البيانات على نفس الجهاز داخل المتصفح لكل بريد إلكتروني. لو عايز مزامنة حقيقية بين الموبايل والكمبيوتر أو نشر على المتاجر، ستحتاج قاعدة بيانات وسيرفر أو Firebase.</p>
       </section>
     </section>
 
@@ -280,7 +363,7 @@
       <button class="nav-btn active" type="button" data-page="home" onclick="showPage('home')">الرئيسية</button>
       <button class="nav-btn" type="button" data-page="monthly" onclick="showPage('monthly')">الشهر</button>
       <button class="fab" type="button" onclick="openModal('expense')">+</button>
-      <button class="nav-btn" type="button" data-page="transactions" onclick="showPage('transactions')">السجل</button>
+      <button class="nav-btn" type="button" data-page="wealth" onclick="showPage('wealth')">ثروتي</button>
       <button class="nav-btn" type="button" data-page="settings" onclick="showPage('settings')">الإعدادات</button>
     </nav>
   </main>
@@ -309,11 +392,20 @@
         <label>التصنيف
           <select id="transaction-category" required></select>
         </label>
-        <label>التاريخ
-          <input id="transaction-date" type="date" required />
-        </label>
+        <div class="two-cols">
+          <label>التاريخ
+            <input id="transaction-date" type="date" required />
+          </label>
+          <label>الساعة (اختياري)
+            <input id="transaction-time" type="time" />
+          </label>
+        </div>
         <label>ملاحظة اختيارية
           <textarea id="transaction-note" rows="3" placeholder="أي تفاصيل إضافية"></textarea>
+        </label>
+        <label style="flex-direction:row;align-items:center;gap:8px;">
+          <input id="transaction-recurring" type="checkbox" style="width:auto;" />
+          <span>تكرار هذه العملية شهرياً</span>
         </label>
         <button class="primary-btn" type="submit">حفظ</button>
       </form>
@@ -334,12 +426,67 @@
         </label>
         <button class="primary-btn" type="submit">فتح الشهر</button>
       </form>
+
+      <form id="goal-form" class="form modal-form" onsubmit="saveGoal(event)">
+        <input id="goal-id" type="hidden" />
+        <label>اسم الهدف
+          <input id="goal-name" type="text" placeholder="مثلاً: شراء موبايل" required />
+        </label>
+        <div class="two-cols">
+          <label>المبلغ المستهدف
+            <input id="goal-target" type="number" min="0" step="0.01" placeholder="0" required />
+          </label>
+          <label>المبلغ الحالي
+            <input id="goal-current" type="number" min="0" step="0.01" placeholder="0" />
+          </label>
+        </div>
+        <label>العملة
+          <select id="goal-currency"></select>
+        </label>
+        <button class="primary-btn" type="submit">حفظ الهدف</button>
+      </form>
+
+      <form id="debt-form" class="form modal-form" onsubmit="saveDebt(event)">
+        <input id="debt-id" type="hidden" />
+        <label>اسم الشخص / الجهة
+          <input id="debt-name" type="text" placeholder="مثلاً: أحمد" required />
+        </label>
+        <div class="two-cols">
+          <label>المبلغ
+            <input id="debt-amount" type="number" min="0" step="0.01" placeholder="0" required />
+          </label>
+          <label>العملة
+            <select id="debt-currency"></select>
+          </label>
+        </div>
+        <label>تاريخ التحصيل المتوقع
+          <input id="debt-date" type="date" />
+        </label>
+        <label>ملاحظة
+          <textarea id="debt-note" rows="2" placeholder="تفاصيل الدين"></textarea>
+        </label>
+        <button class="primary-btn" type="submit">حفظ</button>
+      </form>
+
+      <form id="pin-form" class="form modal-form" onsubmit="updatePIN(event)">
+        <label>الرقم السري الحالي
+          <input id="current-pin" type="text" placeholder="0000" maxlength="4" inputmode="numeric" required />
+        </label>
+        <label>الرقم السري الجديد
+          <input id="new-pin" type="text" placeholder="0000" maxlength="4" inputmode="numeric" required />
+        </label>
+        <label>تأكيد الرقم السري الجديد
+          <input id="confirm-pin" type="text" placeholder="0000" maxlength="4" inputmode="numeric" required />
+        </label>
+        <button class="primary-btn" type="submit">تحديث الرقم السري</button>
+      </form>
     </article>
   </section>
 
   <script>
-    const STORAGE_USERS = 'rassd_users_v2';
-    const STORAGE_CURRENT = 'rassd_current_user_v2';
+    const STORAGE_USERS = 'rassd_users_v3';
+    const STORAGE_CURRENT = 'rassd_current_user_v3';
+    const STORAGE_PIN = 'rassd_pin_v3';
 
     const CURRENCIES = [
       { code: 'EGP', label: 'جنيه مصري', symbol: 'ج.م' },
@@ -363,6 +510,7 @@
     let selectedMonth = getCurrentMonth();
     let activeFilter = 'all';
     let onboardingStep = 0;
+    let pinAttempt = '';
 
     const onboardingSteps = [
       {
@@ -389,6 +537,7 @@
 
     const $ = id => document.getElementById(id);
 
+    // ===== STORAGE FUNCTIONS =====
     function readUsers(){
       try { return JSON.parse(localStorage.getItem(STORAGE_USERS) || '{}'); }
       catch { return {}; }
@@ -410,13 +559,17 @@
       return {
         name,
         defaultCurrency: 'EGP',
+        exchangeRate: 1,
         onboarded: false,
         months: [getCurrentMonth()],
         budgets: {},
-        transactions: []
+        transactions: [],
+        goals: [],
+        debts: []
       };
     }
 
+    // ===== UTILITY FUNCTIONS =====
     function getCurrentMonth(){
       const d = new Date();
       return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2,'0')}`;
@@ -474,6 +627,68 @@
       setTimeout(() => el.classList.remove('show'), 3500);
     }
 
+    // ===== PIN FUNCTIONS =====
+    function showPINScreen(){
+      $('splash-screen').classList.remove('active');
+      $('pin-screen').classList.add('active');
+      renderPINPad();
+    }
+
+    function renderPINPad(){
+      const dots = $('pin-dots');
+      dots.innerHTML = Array(4).fill(0).map((_, i) => `<div class="pin-dot ${i < pinAttempt.length ? 'filled' : ''}"></div>`).join('');
+      
+      const pad = $('pin-pad');
+      pad.innerHTML = '';
+      for(let i = 1; i <= 9; i++){
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'pin-btn';
+        btn.textContent = i;
+        btn.onclick = () => addPINDigit(i);
+        pad.appendChild(btn);
+      }
+      const deleteBtn = document.createElement('button');
+      deleteBtn.type = 'button';
+      deleteBtn.className = 'pin-btn delete';
+      deleteBtn.textContent = '⌫';
+      deleteBtn.onclick = () => deletePINDigit();
+      pad.appendChild(deleteBtn);
+      const zeroBtn = document.createElement('button');
+      zeroBtn.type = 'button';
+      zeroBtn.className = 'pin-btn';
+      zeroBtn.textContent = '0';
+      zeroBtn.onclick = () => addPINDigit(0);
+      pad.appendChild(zeroBtn);
+    }
+
+    function addPINDigit(digit){
+      if(pinAttempt.length < 4){
+        pinAttempt += digit;
+        renderPINPad();
+        if(pinAttempt.length === 4) verifyPIN();
+      }
+    }
+
+    function deletePINDigit(){
+      pinAttempt = pinAttempt.slice(0, -1);
+      renderPINPad();
+    }
+
+    function verifyPIN(){
+      const users = readUsers();
+      const userPIN = users[currentEmail]?.pin;
+      if(pinAttempt === userPIN){
+        $('pin-screen').classList.remove('active');
+        openApp();
+      } else {
+        pinAttempt = '';
+        renderPINPad();
+        showError('pin-screen', 'الرقم السري غير صحيح');
+      }
+    }
+
+    // ===== AUTH FUNCTIONS =====
     function switchAuth(mode){
       $('login-tab').classList.toggle('active', mode === 'login');
       $('signup-tab').classList.toggle('active', mode === 'signup');
@@ -503,11 +718,8 @@
       ensureMonth(selectedMonth);
       saveUser();
 
-      if(!userData.onboarded){
-        showOnboarding();
-      }else{
-        openApp();
-      }
+      $('auth-screen').classList.remove('active');
+      showPINScreen();
     }
 
     function signupUser(event){
@@ -516,10 +728,11 @@
       const email = normalizeEmail($('signup-email').value);
       const password = $('signup-password').value;
       const password2 = $('signup-password2').value;
+      const pin = $('signup-pin').value;
       const users = readUsers();
 
-      if(!name || !email || password.length < 6 || password !== password2){
-        showError('signup-error', 'تأكد من الاسم والبريد وأن كلمة المرور 6 أحرف على الأقل ومتطابقة.');
+      if(!name || !email || password.length < 6 || password !== password2 || pin.length !== 4){
+        showError('signup-error', 'تأكد من الاسم والبريد وأن كلمة المرور 6 أحرف وأن الرقم السري 4 أرقام.');
         return;
       }
       if(users[email]){
@@ -527,7 +740,7 @@
         return;
       }
 
-      users[email] = { password, createdAt: new Date().toISOString(), data: makeDefaultData(name) };
+      users[email] = { password, pin, createdAt: new Date().toISOString(), data: makeDefaultData(name) };
       writeUsers(users);
       currentEmail = email;
       userData = users[email].data;
@@ -536,6 +749,7 @@
       showOnboarding();
     }
 
+    // ===== ONBOARDING =====
     function showOnboarding(){
       $('auth-screen').classList.remove('active');
       $('app-screen').classList.remove('active');
@@ -563,7 +777,7 @@
         if(amount > 0){
           userData.transactions.push({
             id: uid(), type: 'income', title: 'دخل بداية الشهر', amount, currency,
-            category: 'راتب', date: today(), note: 'تمت إضافته أثناء تهيئة الحساب', createdAt: new Date().toISOString()
+            category: 'راتب', date: today(), time: '09:00', note: 'تمت إضافته أثناء تهيئة الحساب', createdAt: new Date().toISOString(), recurring: false
           });
         }
       }
@@ -591,12 +805,13 @@
       userData.onboarded = true;
       ensureMonth(selectedMonth);
       saveUser();
-      openApp();
+      $('onboarding-screen').classList.remove('active');
+      showPINScreen();
     }
 
+    // ===== APP FUNCTIONS =====
     function openApp(){
-      $('auth-screen').classList.remove('active');
-      $('onboarding-screen').classList.remove('active');
+      $('pin-screen').classList.remove('active');
       $('app-screen').classList.add('active');
       renderAll();
     }
@@ -605,6 +820,7 @@
       localStorage.removeItem(STORAGE_CURRENT);
       currentEmail = null;
       userData = null;
+      pinAttempt = '';
       $('app-screen').classList.remove('active');
       $('auth-screen').classList.add('active');
       switchAuth('login');
@@ -645,6 +861,22 @@
       return Array.from(map.entries()).map(([currency, amount]) => formatAmount(amount, currency)).join(' + ') || formatAmount(0, userData.defaultCurrency);
     }
 
+    function calculateWealth(){
+      let total = 0;
+      userData.transactions.forEach(t => {
+        const amount = Number(t.amount || 0);
+        if(t.type === 'income') total += amount;
+        else total -= amount;
+      });
+      return total;
+    }
+
+    function calculateMinuteValue(){
+      const monthlyIncome = monthTransactions().filter(t => t.type === 'income').reduce((s,t) => s + Number(t.amount || 0), 0);
+      const minutesInMonth = 30 * 24 * 60;
+      return monthlyIncome > 0 ? monthlyIncome / minutesInMonth : 0;
+    }
+
     function renderAll(){
       if(!userData) return;
       renderHeader();
@@ -652,6 +884,7 @@
       renderHome();
       renderMonthly();
       renderTransactions();
+      renderWealth();
       renderSettings();
     }
 
@@ -692,7 +925,7 @@
       $('transactions-count').textContent = totals.count.toLocaleString('ar-EG');
       $('budget-left').textContent = budget ? formatAmount(Math.max(0, Number(budget.amount || 0) - totals.expense), budget.currency) : 'غير محددة';
       $('smart-insight').textContent = getInsight(totals, budget);
-      const recent = monthTransactions().sort((a,b) => b.date.localeCompare(a.date) || b.createdAt.localeCompare(a.createdAt)).slice(0,5);
+      const recent = monthTransactions().sort((a,b) => b.date.localeCompare(a.date) || (b.time || '').localeCompare(a.time || '') || b.createdAt.localeCompare(a.createdAt)).slice(0,5);
       $('recent-list').innerHTML = recent.length ? recent.map(transactionHTML).join('') : '<div class="empty">لا توجد عمليات في هذا الشهر بعد. أضف دخلك ومصاريفك لتبدأ المتابعة.</div>';
     }
 
@@ -720,12 +953,17 @@
     }
 
     function transactionHTML(t){
+      const timeStr = t.time ? ` • ${t.time}` : '';
       return `
         <div class="tx">
           <div class="tx-icon">${t.type === 'income' ? '💰' : '💸'}</div>
           <div class="tx-info">
             <strong>${t.title}</strong>
-            <span>${t.category} • ${t.date}</span>
+            <span>${t.category} • ${t.date}${timeStr}</span>
+            <div class="tx-actions">
+              <button class="mini-action" onclick="editTransaction('${t.id}')">تعديل</button>
+              <button class="mini-action delete" onclick="deleteTransaction('${t.id}')">حذف</button>
+            </div>
           </div>
           <div class="tx-amount ${t.type}">${t.type === 'income' ? '+' : '-'}${formatAmount(t.amount, t.currency)}</div>
         </div>
@@ -753,6 +991,7 @@
         <div class="health-main ${status}">
           <strong>${status === 'good' ? 'ممتاز' : status === 'warn' ? 'انتبه' : 'خطر'}</strong>
           <p>${msg}</p>
+          ${budget ? `<div class="bar"><span style="width:${Math.min(100, (totals.expense/budget.amount)*100)}%"></span></div>` : ''}
         </div>
       `;
 
@@ -768,13 +1007,13 @@
     function renderTransactions(){
       let txs = monthTransactions();
       if(activeFilter !== 'all') txs = txs.filter(t => t.type === activeFilter);
-      txs.sort((a,b) => b.date.localeCompare(a.date) || b.createdAt.localeCompare(a.createdAt));
+      txs.sort((a,b) => b.date.localeCompare(a.date) || (b.time || '').localeCompare(a.time || '') || b.createdAt.localeCompare(a.createdAt));
       
       $('transactions-list').innerHTML = txs.length ? txs.map(t => `
         <div class="tx">
           <div class="tx-info">
             <strong>${t.title}</strong>
-            <span>${t.category} • ${t.date}</span>
+            <span>${t.category} • ${t.date}${t.time ? ' • ' + t.time : ''}</span>
             <div class="tx-actions">
               <button class="mini-action" onclick="editTransaction('${t.id}')">تعديل</button>
               <button class="mini-action delete" onclick="deleteTransaction('${t.id}')">حذف</button>
@@ -783,6 +1022,59 @@
           <div class="tx-amount ${t.type}">${t.type === 'income' ? '+' : '-'}${formatAmount(t.amount, t.currency)}</div>
         </div>
       `).join('') : '<div class="empty">لا توجد عمليات تطابق الفلتر.</div>';
+    }
+
+    function renderWealth(){
+      const wealth = calculateWealth();
+      const minuteValue = calculateMinuteValue();
+      $('total-wealth').textContent = formatAmount(wealth, userData.defaultCurrency);
+      $('minute-value').textContent = formatAmount(minuteValue, userData.defaultCurrency);
+
+      // Render goals
+      const goalsList = $('goals-list');
+      if(userData.goals && userData.goals.length){
+        goalsList.innerHTML = userData.goals.map(g => {
+          const pct = Math.min(100, (g.current / g.target) * 100);
+          return `
+            <div class="goal-card">
+              <div class="goal-header">
+                <strong>${g.name}</strong>
+                <span>${Math.round(pct)}%</span>
+              </div>
+              <div class="goal-progress">
+                <span style="width:${pct}%"></span>
+              </div>
+              <div class="tx-actions" style="margin-top:8px;">
+                <button class="mini-action" onclick="editGoal('${g.id}')">تعديل</button>
+                <button class="mini-action delete" onclick="deleteGoal('${g.id}')">حذف</button>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }else{
+        goalsList.innerHTML = '<div class="empty">لا توجد أهداف ادخار حالياً. أضف هدفك الأول!</div>';
+      }
+
+      // Render debts
+      const debtsList = $('debts-list');
+      if(userData.debts && userData.debts.length){
+        debtsList.innerHTML = userData.debts.map(d => `
+          <div class="debt-card">
+            <div class="debt-header">
+              <strong>${d.name}</strong>
+              <span>${d.date ? d.date : 'بدون تاريخ'}</span>
+            </div>
+            <div class="debt-amount">${formatAmount(d.amount, d.currency)}</div>
+            <div class="debt-actions">
+              <button class="mini-action" onclick="editDebt('${d.id}')">تعديل</button>
+              <button class="mini-action" onclick="collectDebt('${d.id}')">تم التحصيل</button>
+              <button class="mini-action delete" onclick="deleteDebt('${d.id}')">حذف</button>
+            </div>
+          </div>
+        `).join('');
+      }else{
+        debtsList.innerHTML = '<div class="empty">لا توجد فلوس ليك عند الناس حالياً.</div>';
+      }
     }
 
     function setFilter(f){
@@ -794,6 +1086,7 @@
     function renderSettings(){
       $('settings-name').value = userData.name;
       $('settings-default-currency').innerHTML = currencyOptions(userData.defaultCurrency);
+      $('settings-exchange-rate').value = userData.exchangeRate || 1;
       const budget = userData.budgets[selectedMonth];
       $('settings-budget').value = budget ? budget.amount : '';
     }
@@ -801,11 +1094,57 @@
     function saveSettings(){
       userData.name = $('settings-name').value.trim() || userData.name;
       userData.defaultCurrency = $('settings-default-currency').value;
+      userData.exchangeRate = parseAmountValue($('settings-exchange-rate').value) || 1;
       const bAmt = parseAmountValue($('settings-budget').value);
       if(bAmt > 0) userData.budgets[selectedMonth] = { amount: bAmt, currency: userData.defaultCurrency };
       saveUser();
       renderAll();
       alert('تم حفظ الإعدادات بنجاح');
+    }
+
+    function changePIN(){
+      openModal('pin');
+    }
+
+    function updatePIN(e){
+      e.preventDefault();
+      const users = readUsers();
+      const currentPIN = $('current-pin').value;
+      const newPIN = $('new-pin').value;
+      const confirmPIN = $('confirm-pin').value;
+
+      if(currentPIN !== users[currentEmail]?.pin){
+        alert('الرقم السري الحالي غير صحيح');
+        return;
+      }
+      if(newPIN !== confirmPIN){
+        alert('الرقم السري الجديد غير متطابق');
+        return;
+      }
+      if(newPIN.length !== 4){
+        alert('الرقم السري يجب أن يكون 4 أرقام');
+        return;
+      }
+
+      users[currentEmail].pin = newPIN;
+      writeUsers(users);
+      closeModal();
+      alert('تم تحديث الرقم السري بنجاح');
+    }
+
+    function exportData(){
+      const data = {
+        user: userData,
+        exportDate: new Date().toISOString()
+      };
+      const json = JSON.stringify(data, null, 2);
+      const blob = new Blob([json], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `rassd_backup_${new Date().toISOString().slice(0,10)}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
     }
 
     function showPage(p){
@@ -826,6 +1165,8 @@
         $('transaction-currency').innerHTML = currencyOptions(userData.defaultCurrency);
         $('transaction-category').innerHTML = categoryOptions(type);
         $('transaction-date').value = today();
+        $('transaction-time').value = '';
+        $('transaction-recurring').checked = false;
         
         if(id){
           const t = userData.transactions.find(x => x.id === id);
@@ -836,7 +1177,9 @@
             $('transaction-currency').value = t.currency;
             $('transaction-category').value = t.category;
             $('transaction-date').value = t.date;
+            $('transaction-time').value = t.time || '';
             $('transaction-note').value = t.note || '';
+            $('transaction-recurring').checked = t.recurring || false;
           }
         }else{
           $('transaction-id').value = '';
@@ -854,6 +1197,52 @@
         $('month-form').classList.add('active');
         $('modal-title').textContent = 'فتح شهر جديد';
         $('new-month').value = getCurrentMonth();
+      } else if(type === 'goal'){
+        $('goal-form').classList.add('active');
+        $('modal-title').textContent = id ? 'تعديل الهدف' : 'إضافة هدف ادخار';
+        $('goal-currency').innerHTML = currencyOptions(userData.defaultCurrency);
+        if(id){
+          const g = userData.goals.find(x => x.id === id);
+          if(g){
+            $('goal-id').value = g.id;
+            $('goal-name').value = g.name;
+            $('goal-target').value = g.target;
+            $('goal-current').value = g.current;
+            $('goal-currency').value = g.currency;
+          }
+        }else{
+          $('goal-id').value = '';
+          $('goal-name').value = '';
+          $('goal-target').value = '';
+          $('goal-current').value = '0';
+        }
+      } else if(type === 'debt'){
+        $('debt-form').classList.add('active');
+        $('modal-title').textContent = id ? 'تعديل الدين' : 'إضافة فلوس ليك';
+        $('debt-currency').innerHTML = currencyOptions(userData.defaultCurrency);
+        if(id){
+          const d = userData.debts.find(x => x.id === id);
+          if(d){
+            $('debt-id').value = d.id;
+            $('debt-name').value = d.name;
+            $('debt-amount').value = d.amount;
+            $('debt-currency').value = d.currency;
+            $('debt-date').value = d.date || '';
+            $('debt-note').value = d.note || '';
+          }
+        }else{
+          $('debt-id').value = '';
+          $('debt-name').value = '';
+          $('debt-amount').value = '';
+          $('debt-date').value = '';
+          $('debt-note').value = '';
+        }
+      } else if(type === 'pin'){
+        $('pin-form').classList.add('active');
+        $('modal-title').textContent = 'تغيير الرقم السري';
+        $('current-pin').value = '';
+        $('new-pin').value = '';
+        $('confirm-pin').value = '';
       }
     }
 
@@ -872,7 +1261,9 @@
         currency: $('transaction-currency').value,
         category: $('transaction-category').value,
         date: $('transaction-date').value,
+        time: $('transaction-time').value || '',
         note: $('transaction-note').value.trim(),
+        recurring: $('transaction-recurring').checked,
         createdAt: new Date().toISOString()
       };
       
@@ -911,21 +1302,116 @@
       renderAll();
     }
 
-    // تهيئة التطبيق عند التحميل
-    window.onload = () => {
-      const savedEmail = localStorage.getItem(STORAGE_CURRENT);
-      if(savedEmail){
-        const users = readUsers();
-        if(users[savedEmail]){
-          currentEmail = savedEmail;
-          userData = users[savedEmail].data;
-          selectedMonth = getCurrentMonth();
-          if(userData.onboarded) openApp();
-          else showOnboarding();
-          return;
-        }
+    function saveGoal(e){
+      e.preventDefault();
+      if(!userData.goals) userData.goals = [];
+      const id = $('goal-id').value;
+      const data = {
+        id: id || uid(),
+        name: $('goal-name').value.trim(),
+        target: parseAmountValue($('goal-target').value),
+        current: parseAmountValue($('goal-current').value),
+        currency: $('goal-currency').value
+      };
+      if(id){
+        const idx = userData.goals.findIndex(g => g.id === id);
+        if(idx !== -1) userData.goals[idx] = data;
+      }else{
+        userData.goals.push(data);
       }
-      switchAuth('login');
+      saveUser();
+      closeModal();
+      renderAll();
+    }
+
+    function deleteGoal(id){
+      if(!confirm('هل تريد حذف هذا الهدف؟')) return;
+      userData.goals = userData.goals.filter(g => g.id !== id);
+      saveUser();
+      renderAll();
+    }
+
+    function editGoal(id){
+      openModal('goal', id);
+    }
+
+    function saveDebt(e){
+      e.preventDefault();
+      if(!userData.debts) userData.debts = [];
+      const id = $('debt-id').value;
+      const data = {
+        id: id || uid(),
+        name: $('debt-name').value.trim(),
+        amount: parseAmountValue($('debt-amount').value),
+        currency: $('debt-currency').value,
+        date: $('debt-date').value || '',
+        note: $('debt-note').value.trim()
+      };
+      if(id){
+        const idx = userData.debts.findIndex(d => d.id === id);
+        if(idx !== -1) userData.debts[idx] = data;
+      }else{
+        userData.debts.push(data);
+      }
+      saveUser();
+      closeModal();
+      renderAll();
+    }
+
+    function collectDebt(id){
+      const debt = userData.debts.find(d => d.id === id);
+      if(!debt) return;
+      if(!confirm(`هل تأكد أنك استلمت ${formatAmount(debt.amount, debt.currency)} من ${debt.name}؟`)) return;
+      
+      userData.transactions.push({
+        id: uid(),
+        type: 'income',
+        title: `استلام من ${debt.name}`,
+        amount: debt.amount,
+        currency: debt.currency,
+        category: 'دخل آخر',
+        date: today(),
+        time: new Date().toTimeString().slice(0,5),
+        note: `تم تحصيل الدين من ${debt.name}`,
+        createdAt: new Date().toISOString(),
+        recurring: false
+      });
+      
+      userData.debts = userData.debts.filter(d => d.id !== id);
+      saveUser();
+      renderAll();
+    }
+
+    function deleteDebt(id){
+      if(!confirm('هل تريد حذف هذا الدين؟')) return;
+      userData.debts = userData.debts.filter(d => d.id !== id);
+      saveUser();
+      renderAll();
+    }
+
+    function editDebt(id){
+      openModal('debt', id);
+    }
+
+    // ===== INITIALIZATION =====
+    window.onload = () => {
+      setTimeout(() => {
+        const savedEmail = localStorage.getItem(STORAGE_CURRENT);
+        if(savedEmail){
+          const users = readUsers();
+          if(users[savedEmail]){
+            currentEmail = savedEmail;
+            userData = users[savedEmail].data;
+            selectedMonth = getCurrentMonth();
+            $('splash-screen').classList.remove('active');
+            showPINScreen();
+            return;
+          }
+        }
+        $('splash-screen').classList.remove('active');
+        $('auth-screen').classList.add('active');
+        switchAuth('login');
+      }, 2000);
     };
   </script>
 </body>
