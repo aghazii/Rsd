@@ -1,0 +1,26 @@
+{
+  "name": "رصد — إدارة مالية شهرية",
+  "short_name": "رصد",
+  "description": "تطبيق شخصي لإدارة الدخل والمصاريف شهر بشهر مع دعم أكثر من مستخدم وأكثر من عملة.",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#05080f",
+  "theme_color": "#05080f",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "Icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "Icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

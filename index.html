@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#05080f" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="رصد" />
+  <link rel="apple-touch-icon" href="Icon.png" />
+  <title>رصد — إدارة مالية شهرية</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;900&family=Tajawal:wght@500;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="manifest" href="manifest.json" />
+</head>
+<body>
+  <main id="auth-screen" class="screen auth-screen active">
+    <section class="brand-card">
+      <div class="coin-logo">ر</div>
+      <h1>رصد</h1>
+      <p>تطبيق لإدارة دخلك ومصاريفك شهر بشهر وبأي عملة تختارها.</p>
+    </section>
+
+    <section class="auth-card">
+      <div class="tabs" role="tablist">
+        <button id="login-tab" class="tab active" type="button" onclick="switchAuth('login')">تسجيل الدخول</button>
+        <button id="signup-tab" class="tab" type="button" onclick="switchAuth('signup')">حساب جديد</button>
+      </div>
+
+      <form id="login-form" class="form active" onsubmit="loginUser(event)">
+        <label>البريد الإلكتروني
+          <input id="login-email" type="email" placeholder="example@email.com" autocomplete="email" required />
+        </label>
+        <label>كلمة المرور
+          <input id="login-password" type="password" placeholder="••••••••" autocomplete="current-password" required />
+        </label>
+        <p id="login-error" class="error"></p>
+        <button class="primary-btn" type="submit">دخول</button>
+      </form>
+
+      <form id="signup-form" class="form" onsubmit="signupUser(event)">
+        <label>الاسم
+          <input id="signup-name" type="text" placeholder="اكتب اسمك" required />
+        </label>
+        <label>البريد الإلكتروني
+          <input id="signup-email" type="email" placeholder="example@email.com" autocomplete="email" required />
+        </label>
+        <label>كلمة المرور
+          <input id="signup-password" type="password" placeholder="6 أحرف على الأقل" minlength="6" required />
+        </label>
+        <label>تأكيد كلمة المرور
+          <input id="signup-password2" type="password" placeholder="أعد كتابة كلمة المرور" minlength="6" required />
+        </label>
+        <p id="signup-error" class="error"></p>
+        <button class="primary-btn" type="submit">إنشاء الحساب</button>
+      </form>
+    </section>
+  </main>
+
+  <main id="onboarding-screen" class="screen onboarding-screen">
+    <section class="top-line">
+      <span id="onboarding-step-label">خطوة 1 من 4</span>
+      <button class="link-btn" type="button" onclick="finishOnboarding()">تخطي</button>
+    </section>
+    <section class="progress-dots" id="progress-dots"></section>
+    <section id="onboarding-body" class="onboarding-body"></section>
+    <button id="onboarding-next" class="primary-btn bottom-btn" type="button" onclick="nextOnboarding()">التالي</button>
+  </main>
+
+  <main id="app-screen" class="app-screen">
+    <header class="app-header">
+      <div>
+        <p id="greeting" class="muted">مرحباً</p>
+        <h2 id="user-name">مستخدم</h2>
+      </div>
+      <div class="header-actions">
+        <button class="ghost-btn" type="button" onclick="openModal('income')">+ دخل</button>
+        <button id="avatar" class="avatar" type="button" onclick="showPage('settings')">ر</button>
+      </div>
+    </header>
+
+    <nav id="month-tabs" class="month-tabs" aria-label="اختيار الشهر"></nav>
+
+    <section id="page-home" class="page active">
+      <article class="hero-card">
+        <div class="hero-top">
+          <div>
+            <span class="eyebrow">ملخص الشهر</span>
+            <h1 id="month-title">الشهر الحالي</h1>
+          </div>
+          <button class="small-btn" type="button" onclick="openModal('month')">شهر جديد</button>
+        </div>
+        <div class="balance-box">
+          <span>صافي الشهر</span>
+          <strong id="net-total">0</strong>
+          <small id="net-note">الدخل ناقص المصاريف</small>
+        </div>
+        <div class="summary-grid">
+          <div class="summary income"><span>دخل الشهر</span><strong id="income-total">0</strong></div>
+          <div class="summary expense"><span>مصاريف الشهر</span><strong id="expense-total">0</strong></div>
+          <div class="summary"><span>المتبقي من الميزانية</span><strong id="budget-left">0</strong></div>
+          <div class="summary"><span>عدد العمليات</span><strong id="transactions-count">0</strong></div>
+        </div>
+      </article>
+
+      <section class="quick-actions">
+        <button type="button" onclick="openModal('expense')"><span>مصروف</span><strong>+</strong></button>
+        <button type="button" onclick="openModal('income')"><span>دخل</span><strong>+</strong></button>
+        <button type="button" onclick="openModal('budget')"><span>ميزانية</span><strong>تعديل</strong></button>
+        <button type="button" onclick="showPage('monthly')"><span>تفاصيل الشهر</span><strong>عرض</strong></button>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head"><h3>تحليل سريع</h3></div>
+        <p id="smart-insight" class="smart-text">أضف دخلك ومصاريفك ليظهر التحليل.</p>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head"><h3>آخر العمليات</h3><button class="link-btn" type="button" onclick="showPage('transactions')">الكل</button></div>
+        <div id="recent-list" class="list"></div>
+      </section>
+    </section>
+
+    <section id="page-monthly" class="page">
+      <div class="page-title">
+        <h1>مصاريف ودخل الشهر</h1>
+        <p id="monthly-subtitle">اعرف أمورك ماشية إزاي في الشهر ده.</p>
+      </div>
+      <section class="panel">
+        <div id="monthly-health" class="health-card"></div>
+      </section>
+      <section class="panel">
+        <div class="panel-head"><h3>حسب النوع</h3></div>
+        <div id="category-summary" class="category-summary"></div>
+      </section>
+    </section>
+
+    <section id="page-transactions" class="page">
+      <div class="page-title split-title">
+        <div>
+          <h1>السجل</h1>
+          <p>كل أرقامك كما أدخلتها وبنفس العملة.</p>
+        </div>
+        <div class="inline-actions">
+          <button class="small-btn" type="button" onclick="openModal('income')">+ دخل</button>
+          <button class="small-btn danger" type="button" onclick="openModal('expense')">+ مصروف</button>
+        </div>
+      </div>
+      <div class="filter-row">
+        <button class="filter active" type="button" data-filter="all" onclick="setFilter('all')">الكل</button>
+        <button class="filter" type="button" data-filter="income" onclick="setFilter('income')">الدخل</button>
+        <button class="filter" type="button" data-filter="expense" onclick="setFilter('expense')">المصاريف</button>
+      </div>
+      <div id="transactions-list" class="list large-list"></div>
+    </section>
+
+    <section id="page-settings" class="page">
+      <div class="page-title"><h1>الإعدادات</h1><p>تحكم في بياناتك والعملات والميزانية.</p></div>
+      <section class="panel settings-panel">
+        <label>الاسم
+          <input id="settings-name" type="text" />
+        </label>
+        <label>العملة الافتراضية للعرض
+          <select id="settings-default-currency"></select>
+        </label>
+        <label>ميزانية الشهر المختار
+          <input id="settings-budget" type="number" min="0" step="0.01" />
+        </label>
+        <div class="row-actions">
+          <button class="primary-btn" type="button" onclick="saveSettings()">حفظ التعديلات</button>
+          <button class="secondary-btn" type="button" onclick="logoutUser()">تسجيل الخروج</button>
+        </div>
+      </section>
+      <section class="panel">
+        <div class="panel-head"><h3>معلومة مهمة</h3></div>
+        <p class="muted-text">هذه النسخة تحفظ البيانات على نفس الجهاز داخل المتصفح لكل بريد إلكتروني. لو عايز مزامنة حقيقية بين الموبايل والكمبيوتر أو نشر على المتاجر، ستحتاج قاعدة بيانات وسيرفر أو Firebase.</p>
+      </section>
+    </section>
+
+    <nav class="bottom-nav">
+      <button class="nav-btn active" type="button" data-page="home" onclick="showPage('home')">الرئيسية</button>
+      <button class="nav-btn" type="button" data-page="monthly" onclick="showPage('monthly')">الشهر</button>
+      <button class="fab" type="button" onclick="openModal('expense')">+</button>
+      <button class="nav-btn" type="button" data-page="transactions" onclick="showPage('transactions')">السجل</button>
+      <button class="nav-btn" type="button" data-page="settings" onclick="showPage('settings')">الإعدادات</button>
+    </nav>
+  </main>
+
+  <section id="modal" class="modal" aria-hidden="true">
+    <div class="modal-backdrop" onclick="closeModal()"></div>
+    <article class="modal-card">
+      <div class="modal-head">
+        <h2 id="modal-title">إضافة</h2>
+        <button class="x-btn" type="button" onclick="closeModal()">×</button>
+      </div>
+      <form id="transaction-form" class="form modal-form" onsubmit="saveTransaction(event)">
+        <input id="transaction-id" type="hidden" />
+        <input id="transaction-type" type="hidden" />
+        <label>الوصف
+          <input id="transaction-title" type="text" placeholder="مثلاً: مرتب، أكل، مواصلات" required />
+        </label>
+        <div class="two-cols">
+          <label>المبلغ
+            <input id="transaction-amount" type="number" min="0" step="0.01" placeholder="0" required />
+          </label>
+          <label>العملة
+            <select id="transaction-currency" required></select>
+          </label>
+        </div>
+        <label>التصنيف
+          <select id="transaction-category" required></select>
+        </label>
+        <label>التاريخ
+          <input id="transaction-date" type="date" required />
+        </label>
+        <label>ملاحظة اختيارية
+          <textarea id="transaction-note" rows="3" placeholder="أي تفاصيل إضافية"></textarea>
+        </label>
+        <button class="primary-btn" type="submit">حفظ</button>
+      </form>
+
+      <form id="budget-form" class="form modal-form" onsubmit="saveBudget(event)">
+        <label>ميزانية الشهر
+          <input id="budget-amount" type="number" min="0" step="0.01" placeholder="مثلاً 5000" required />
+        </label>
+        <label>عملة الميزانية
+          <select id="budget-currency"></select>
+        </label>
+        <button class="primary-btn" type="submit">حفظ الميزانية</button>
+      </form>
+
+      <form id="month-form" class="form modal-form" onsubmit="addMonth(event)">
+        <label>اختر الشهر
+          <input id="new-month" type="month" required />
+        </label>
+        <button class="primary-btn" type="submit">فتح الشهر</button>
+      </form>
+    </article>
+  </section>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
