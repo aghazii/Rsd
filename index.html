@@ -37,6 +37,7 @@
     @keyframes fadeIn{from{opacity:0}to{opacity:1}}
     @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
     @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+    @keyframes pinPress{0%{transform:scale(1)}50%{transform:scale(.92)}100%{transform:scale(1)}}
 
     .screen{position:fixed;inset:0;display:none;overflow:auto;padding:calc(var(--safe-top) + 20px) 20px calc(var(--safe-bottom) + 20px);animation:slideUp .5s ease}
     .screen.active{display:block}
@@ -46,15 +47,17 @@
     .splash-text h1{font-family:'Tajawal',sans-serif;font-size:32px;font-weight:900;margin-bottom:8px}
     .splash-text p{color:var(--muted);font-size:14px}
 
-    .pin-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:30px}
+    .pin-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;gap:40px;padding:0 20px}
+    .pin-container{display:flex;flex-direction:column;align-items:center;gap:35px;width:100%}
     .pin-title{text-align:center;font-family:'Tajawal',sans-serif;font-size:28px;font-weight:900}
     .pin-dots{display:flex;gap:15px;justify-content:center}
     .pin-dot{width:16px;height:16px;border-radius:50%;background:var(--bg-4);border:2px solid var(--line);transition:.2s}
-    .pin-dot.filled{background:var(--gold-2);border-color:var(--gold-1)}
-    .pin-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;max-width:280px}
-    .pin-btn{aspect-ratio:1;border-radius:18px;background:var(--bg-3);border:1px solid rgba(255,255,255,.08);color:var(--text);font-size:24px;font-weight:900;transition:.1s}
-    .pin-btn:active{transform:scale(.95);background:var(--bg-4)}
-    .pin-btn.delete{grid-column:3;background:rgba(255,77,94,.1);color:var(--red)}
+    .pin-dot.filled{background:var(--gold-2);border-color:var(--gold-1);box-shadow:0 0 12px rgba(201,160,48,.4)}
+    .pin-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;width:100%;max-width:300px;margin:0 auto}
+    .pin-btn{aspect-ratio:1;border-radius:20px;background:linear-gradient(135deg,rgba(201,160,48,.12),rgba(201,160,48,.08));border:1.5px solid rgba(201,160,48,.25);color:var(--text);font-size:26px;font-weight:900;transition:.15s;box-shadow:0 8px 24px rgba(0,0,0,.3);backdrop-filter:blur(10px)}
+    .pin-btn:active{animation:pinPress .2s ease;background:linear-gradient(135deg,rgba(201,160,48,.25),rgba(201,160,48,.15));box-shadow:0 4px 12px rgba(201,160,48,.2)}
+    .pin-btn.delete{grid-column:3;background:linear-gradient(135deg,rgba(255,77,94,.12),rgba(255,77,94,.08));border-color:rgba(255,77,94,.25);color:var(--red)}
+    .pin-btn.delete:active{background:linear-gradient(135deg,rgba(255,77,94,.25),rgba(255,77,94,.15))}
 
     .auth-screen{align-content:center;justify-items:center}
     .brand-card{text-align:center;margin:0 auto 24px;max-width:360px}
@@ -98,1321 +101,608 @@
     .avatar{width:43px;height:43px;border-radius:14px;background:linear-gradient(135deg,var(--gold-4),var(--gold-2));color:#1a0e00;font-family:'Tajawal',sans-serif;font-weight:900;font-size:18px;display:grid;place-items:center;cursor:pointer;transition:.2s}
     .avatar:active{transform:scale(.95)}
     .month-tabs{display:flex;gap:8px;overflow:auto;margin:8px -16px 12px;padding:0 16px 4px;scrollbar-width:none}.month-tabs::-webkit-scrollbar{display:none}
-    .month-tab{flex:0 0 auto;padding:9px 15px;border-radius:99px;background:var(--bg-3);color:var(--faint);border:1px solid rgba(255,255,255,.05);font-weight:800;font-size:12px;transition:.2s}
-    .month-tab.active{background:rgba(201,160,48,.13);border-color:var(--line);color:var(--gold-1)}
-    .page{display:none;animation:fadeUp .25s ease}.page.active{display:block}@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-    .hero-card{background:linear-gradient(145deg,#0d1c38,#0a1528 60%,#080f1c);border:1px solid var(--line);border-radius:var(--radius-xl);padding:18px;box-shadow:0 24px 70px rgba(0,0,0,.5);overflow:hidden;position:relative}.hero-card:before{content:"";position:absolute;inset:auto -80px -100px auto;width:220px;height:220px;border-radius:50%;background:rgba(201,160,48,.08)}
-    .hero-top{position:relative;display:flex;justify-content:space-between;gap:12px;margin-bottom:16px}.eyebrow{color:var(--faint);font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.6px}.hero-top h1{font-family:'Tajawal',sans-serif;font-size:22px;font-weight:900;margin-top:4px}
-    .balance-box{position:relative;background:rgba(5,8,15,.42);border:1px solid rgba(255,255,255,.06);border-radius:22px;padding:16px;margin-bottom:12px}.balance-box span,.summary span{display:block;color:var(--faint);font-size:11px;font-weight:800}.balance-box strong{display:block;font-family:'Tajawal',sans-serif;font-size:40px;font-weight:900;margin:4px 0;color:var(--gold-1)}.balance-box small{color:var(--muted)}
-    .summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.summary{background:var(--bg-3);border:1px solid rgba(255,255,255,.05);border-radius:16px;padding:12px;transition:.2s}.summary strong{display:block;margin-top:6px;font-family:'Tajawal',sans-serif;font-size:19px}.summary.income strong{color:var(--green)}.summary.expense strong{color:var(--red)}
-    .quick-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:14px 0}.quick-actions button{min-height:74px;border-radius:18px;background:var(--bg-2);border:1px solid rgba(255,255,255,.06);color:var(--text);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:6px;transition:.2s}.quick-actions button:active{transform:scale(.95)}.quick-actions span{font-size:11px;color:var(--muted);font-weight:800}.quick-actions strong{color:var(--gold-1);font-size:13px}
-    .panel{padding:15px;margin:12px 0;animation:slideUp .4s ease}.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}.panel h3{font-size:15px}.smart-text{font-size:13px;line-height:1.9;color:var(--muted)}
-    .list{display:flex;flex-direction:column;gap:8px}.tx{display:flex;align-items:center;gap:11px;background:var(--bg-3);border:1px solid rgba(255,255,255,.05);border-radius:16px;padding:12px;transition:.2s;animation:slideUp .3s ease}.tx:active{background:var(--bg-4)}.tx-icon{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:rgba(201,160,48,.1);font-size:18px}.tx-info{flex:1;min-width:0}.tx-info strong{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tx-info span{display:block;color:var(--faint);font-size:11px;margin-top:3px}.tx-amount{text-align:left;font-family:'Tajawal',sans-serif;font-weight:900}.tx-amount.income{color:var(--green)}.tx-amount.expense{color:var(--red)}.tx-actions{display:flex;gap:6px;margin-top:8px}.mini-action{padding:6px 9px;border-radius:10px;background:var(--bg-4);color:var(--muted);font-size:11px;transition:.2s}.mini-action:active{transform:scale(.95)}.mini-action.delete{color:var(--red);background:rgba(255,77,94,.08)}.empty{padding:22px;text-align:center;color:var(--faint);font-size:13px;line-height:1.8}
-    .page-title{margin:16px 0}.page-title h1{font-family:'Tajawal',sans-serif;font-size:26px;font-weight:900}.page-title p{color:var(--muted);font-size:13px;margin-top:6px;line-height:1.7}.split-title{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}.inline-actions{display:flex;gap:6px;flex-shrink:0}.filter-row{display:flex;gap:8px;overflow:auto;margin-bottom:12px}.filter{padding:9px 13px;border-radius:99px;background:var(--bg-3);color:var(--faint);border:1px solid rgba(255,255,255,.05);font-weight:800;font-size:12px;transition:.2s}.filter.active{background:rgba(201,160,48,.13);border-color:var(--line);color:var(--gold-1)}.large-list{padding-bottom:20px}
-    .health-card{display:grid;gap:12px}.health-main{padding:16px;border-radius:18px;border:1px solid rgba(255,255,255,.06);background:var(--bg-3)}.health-main.good{border-color:rgba(0,200,150,.25);background:rgba(0,200,150,.08)}.health-main.warn{border-color:rgba(255,176,32,.25);background:rgba(255,176,32,.08)}.health-main.bad{border-color:rgba(255,77,94,.25);background:rgba(255,77,94,.08)}.health-main strong{font-family:'Tajawal',sans-serif;font-size:22px}.health-main p{color:var(--muted);line-height:1.8;font-size:13px;margin-top:6px}.bar{height:9px;background:var(--bg-4);border-radius:99px;overflow:hidden;margin-top:10px}.bar span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--amber),var(--red));border-radius:99px;transition:width .5s ease}
-    .category-summary{display:grid;gap:8px}.cat-row{display:flex;justify-content:space-between;align-items:center;background:var(--bg-3);border:1px solid rgba(255,255,255,.05);border-radius:14px;padding:11px;animation:slideUp .3s ease}.cat-row span{color:var(--muted);font-size:13px}.cat-row strong{font-family:'Tajawal',sans-serif;font-size:15px}
-    .chart-container{width:100%;height:200px;display:flex;align-items:center;justify-content:center;margin:15px 0}
-    .pie-chart{width:150px;height:150px;border-radius:50%;background:conic-gradient(var(--green) 0deg 90deg, var(--blue) 90deg 180deg, var(--amber) 180deg 270deg, var(--red) 270deg 360deg);position:relative;box-shadow:0 10px 30px rgba(0,0,0,.3)}
-    .pie-chart::after{content:"";position:absolute;inset:15px;border-radius:50%;background:var(--bg);display:grid;place-items:center}
-    .wealth-card{background:linear-gradient(135deg,rgba(0,200,150,.15),rgba(61,142,255,.15));border:1px solid rgba(0,200,150,.25);border-radius:var(--radius-lg);padding:16px;margin:12px 0}
-    .wealth-card strong{display:block;font-family:'Tajawal',sans-serif;font-size:28px;margin:8px 0;color:var(--green)}
-    .wealth-card span{display:block;color:var(--muted);font-size:12px;margin-top:6px}
-    .minute-value{background:linear-gradient(135deg,rgba(255,176,32,.15),rgba(255,77,94,.15));border:1px solid rgba(255,176,32,.25);border-radius:var(--radius-lg);padding:16px;margin:12px 0;text-align:center}
-    .minute-value strong{display:block;font-family:'Tajawal',sans-serif;font-size:24px;color:var(--amber);margin:8px 0}
-    .minute-value span{color:var(--muted);font-size:12px}
-    .goal-card{background:var(--bg-3);border:1px solid rgba(255,255,255,.05);border-radius:var(--radius-lg);padding:14px;margin:10px 0}
+    .month-tab{padding:10px 16px;border-radius:12px;background:var(--bg-3);border:1px solid var(--line);color:var(--muted);font-weight:800;font-size:13px;white-space:nowrap;cursor:pointer;transition:.2s}
+    .month-tab.active{background:linear-gradient(135deg,var(--gold-4),var(--gold-2));color:#1a0e00;border-color:transparent}
+    
+    .summary-card{background:rgba(201,160,48,.08);border:1px solid rgba(201,160,48,.15);border-radius:var(--radius-lg);padding:18px;margin-bottom:16px}
+    .summary-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+    .summary-row:last-child{margin-bottom:0}
+    .summary-label{color:var(--muted);font-size:13px}
+    .summary-value{font-family:'Tajawal',sans-serif;font-size:20px;font-weight:900;color:var(--gold-1)}
+    
+    .wealth-card{background:linear-gradient(135deg,rgba(0,200,150,.1),rgba(61,142,255,.1));border:1px solid rgba(0,200,150,.2);border-radius:var(--radius-lg);padding:18px;margin-bottom:16px}
+    .wealth-label{color:var(--muted);font-size:12px;margin-bottom:6px}
+    .wealth-value{font-family:'Tajawal',sans-serif;font-size:28px;font-weight:900;color:var(--green)}
+    
+    .minute-value-card{background:linear-gradient(135deg,rgba(255,176,32,.1),rgba(201,160,48,.1));border:1px solid rgba(255,176,32,.2);border-radius:var(--radius-lg);padding:18px;margin-bottom:16px}
+    .minute-value-label{color:var(--muted);font-size:12px;margin-bottom:6px}
+    .minute-value-amount{font-family:'Tajawal',sans-serif;font-size:24px;font-weight:900;color:var(--amber)}
+    
+    .debt-section{margin-bottom:20px}
+    .section-title{font-family:'Tajawal',sans-serif;font-size:18px;font-weight:900;margin-bottom:12px;color:var(--text)}
+    .debt-item{background:var(--bg-3);border:1px solid var(--line);border-radius:var(--radius-md);padding:14px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+    .debt-info{flex:1}
+    .debt-name{color:var(--text);font-weight:800;margin-bottom:4px}
+    .debt-date{color:var(--faint);font-size:12px}
+    .debt-amount{font-family:'Tajawal',sans-serif;font-weight:900;color:var(--gold-1)}
+    
+    .goal-item{background:var(--bg-3);border:1px solid var(--line);border-radius:var(--radius-md);padding:14px;margin-bottom:10px}
     .goal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-    .goal-header strong{font-size:14px}
-    .goal-header span{color:var(--faint);font-size:11px}
+    .goal-name{color:var(--text);font-weight:800}
+    .goal-amount{font-family:'Tajawal',sans-serif;font-weight:900;color:var(--gold-1)}
     .goal-progress{width:100%;height:8px;background:var(--bg-4);border-radius:99px;overflow:hidden}
-    .goal-progress span{display:block;height:100%;background:linear-gradient(90deg,var(--green),var(--gold-1));border-radius:99px;width:0;transition:width .5s ease}
-    .debt-card{background:rgba(255,77,94,.08);border:1px solid rgba(255,77,94,.25);border-radius:var(--radius-lg);padding:14px;margin:10px 0}
-    .debt-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-    .debt-header strong{color:var(--red);font-size:14px}
-    .debt-header span{color:var(--faint);font-size:11px}
-    .debt-amount{font-family:'Tajawal',sans-serif;font-size:18px;color:var(--red);font-weight:900;margin:6px 0}
-    .debt-actions{display:flex;gap:6px;margin-top:8px}
-    .debt-actions button{flex:1;padding:8px;border-radius:10px;background:var(--bg-4);color:var(--red);font-size:11px;font-weight:800}
-    .settings-panel{display:flex;flex-direction:column;gap:14px}.row-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    .bottom-nav{position:fixed;left:0;right:0;bottom:0;height:calc(72px + var(--safe-bottom));padding:6px 10px var(--safe-bottom);display:grid;grid-template-columns:1fr 1fr 66px 1fr 1fr;align-items:center;background:rgba(8,13,24,.94);border-top:1px solid var(--line);backdrop-filter:blur(24px);z-index:20}.nav-btn{height:54px;background:transparent;color:var(--faint);font-size:11px;font-weight:900;transition:.2s}.nav-btn.active{color:var(--gold-1)}.fab{width:58px;height:58px;border-radius:20px;background:linear-gradient(135deg,var(--gold-3),var(--gold-2),var(--gold-1));color:#1a0e00;font-size:32px;font-weight:900;box-shadow:0 15px 38px rgba(201,160,48,.32);margin-top:-22px;transition:.2s}.fab:active{transform:scale(.95)}
-    .modal{position:fixed;inset:0;display:none;z-index:40}.modal.active{display:block}.modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.68);backdrop-filter:blur(7px)}.modal-card{position:absolute;left:12px;right:12px;bottom:calc(var(--safe-bottom) + 10px);max-height:88vh;overflow:auto;padding:16px;border-radius:28px 28px 24px 24px;animation:slideUp .3s ease}.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.modal-head h2{font-family:'Tajawal',sans-serif;font-size:22px}.x-btn{width:38px;height:38px;border-radius:12px;background:var(--bg-4);color:var(--text);font-size:24px;transition:.2s}.x-btn:active{transform:scale(.95)}.two-cols{display:grid;grid-template-columns:1fr 1fr;gap:10px}.modal-form{display:none}.modal-form.active{display:flex}
-    @media(min-width:760px){.app-screen{max-width:520px;left:50%;transform:translateX(-50%);border-inline:1px solid rgba(255,255,255,.05)}.bottom-nav{max-width:520px;left:50%;transform:translateX(-50%)}.modal-card{max-width:500px;left:50%;right:auto;transform:translateX(-50%);width:calc(100% - 24px)}}
-    @media(max-width:390px){.quick-actions{grid-template-columns:repeat(2,1fr)}.summary-grid{grid-template-columns:1fr}.two-cols,.row-actions{grid-template-columns:1fr}.split-title{display:block}.inline-actions{margin-top:10px}}
+    .goal-bar{height:100%;background:linear-gradient(90deg,var(--green),var(--gold-1));border-radius:99px;transition:.3s}
+    
+    .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:rgba(8,13,24,.95);border-top:1px solid var(--line);backdrop-filter:blur(24px);display:grid;grid-template-columns:repeat(5,1fr);gap:0;padding-bottom:var(--safe-bottom)}
+    .nav-btn{padding:12px;display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--faint);font-size:11px;font-weight:800;transition:.2s}
+    .nav-btn.active{color:var(--gold-1)}
+    .nav-icon{font-size:20px}
+    
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:1000;padding:20px}
+    .modal-overlay.active{display:flex}
+    .modal-card{width:min(420px,100%);max-height:80vh;overflow:auto}
+    .modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+    .modal-header h3{font-family:'Tajawal',sans-serif;font-size:20px;font-weight:900}
+    .close-btn{width:32px;height:32px;border-radius:8px;background:var(--bg-3);color:var(--muted);display:grid;place-items:center;cursor:pointer;transition:.2s}
+    .close-btn:active{background:var(--bg-4)}
   </style>
 </head>
 <body>
-  <main id="splash-screen" class="screen splash-screen active">
+  <!-- Splash Screen -->
+  <section id="splash" class="screen splash-screen active">
     <div class="splash-logo">ر</div>
     <div class="splash-text">
       <h1>رصد</h1>
       <p>إدارة مالية ذكية وآمنة</p>
     </div>
-  </main>
+  </section>
 
-  <main id="pin-screen" class="screen pin-screen">
-    <h1 class="pin-title">أدخل الرقم السري</h1>
-    <div class="pin-dots" id="pin-dots"></div>
-    <div class="pin-pad" id="pin-pad"></div>
-  </main>
+  <!-- PIN Screen -->
+  <section id="pin-screen" class="screen pin-screen">
+    <div class="pin-container">
+      <h2 class="pin-title">أدخل الرقم السري</h2>
+      <div class="pin-dots" id="pin-dots"></div>
+      <div class="pin-pad" id="pin-pad"></div>
+    </div>
+  </section>
 
-  <main id="auth-screen" class="screen auth-screen">
-    <section class="brand-card">
+  <!-- Auth Screen -->
+  <section id="auth" class="screen auth-screen">
+    <div class="brand-card">
       <div class="coin-logo">ر</div>
       <h1>رصد</h1>
       <p>تطبيق لإدارة دخلك ومصاريفك شهر بشهر وبأي عملة تختارها.</p>
-    </section>
+    </div>
 
-    <section class="auth-card">
-      <div class="tabs" role="tablist">
-        <button id="login-tab" class="tab active" type="button" onclick="switchAuth('login')">تسجيل الدخول</button>
-        <button id="signup-tab" class="tab" type="button" onclick="switchAuth('signup')">حساب جديد</button>
+    <div class="auth-card">
+      <div class="tabs">
+        <button class="tab active" id="login-tab" onclick="switchTab('login')">تسجيل الدخول</button>
+        <button class="tab" id="signup-tab" onclick="switchTab('signup')">حساب جديد</button>
       </div>
 
-      <form id="login-form" class="form active" onsubmit="loginUser(event)">
+      <form id="login-form" class="form active" onsubmit="login(event)">
+        <div class="error" id="login-error"></div>
         <label>البريد الإلكتروني
-          <input id="login-email" type="email" placeholder="example@email.com" autocomplete="email" required />
+          <input id="login-email" type="email" placeholder="example@email.com" required />
         </label>
         <label>كلمة المرور
-          <input id="login-password" type="password" placeholder="••••••••" autocomplete="current-password" required />
+          <input id="login-password" type="password" placeholder="••••••••" required />
         </label>
-        <p id="login-error" class="error"></p>
         <button class="primary-btn" type="submit">دخول</button>
       </form>
 
-      <form id="signup-form" class="form" onsubmit="signupUser(event)">
+      <form id="signup-form" class="form" onsubmit="signup(event)">
+        <div class="error" id="signup-error"></div>
         <label>الاسم
           <input id="signup-name" type="text" placeholder="اكتب اسمك" required />
         </label>
         <label>البريد الإلكتروني
-          <input id="signup-email" type="email" placeholder="example@email.com" autocomplete="email" required />
+          <input id="signup-email" type="email" placeholder="example@email.com" required />
         </label>
         <label>كلمة المرور
           <input id="signup-password" type="password" placeholder="6 أحرف على الأقل" minlength="6" required />
         </label>
         <label>تأكيد كلمة المرور
-          <input id="signup-password2" type="password" placeholder="أعد كتابة كلمة المرور" minlength="6" required />
+          <input id="signup-password2" type="password" placeholder="أعد كتابة كلمة المرور" required />
         </label>
         <label>الرقم السري (4 أرقام)
           <input id="signup-pin" type="text" placeholder="0000" maxlength="4" inputmode="numeric" required />
         </label>
-        <p id="signup-error" class="error"></p>
         <button class="primary-btn" type="submit">إنشاء الحساب</button>
       </form>
-    </section>
-  </main>
-
-  <main id="onboarding-screen" class="screen onboarding-screen">
-    <section class="top-line">
-      <span id="onboarding-step-label">خطوة 1 من 4</span>
-      <button class="link-btn" type="button" onclick="finishOnboarding()">تخطي</button>
-    </section>
-    <section class="progress-dots" id="progress-dots"></section>
-    <section id="onboarding-body" class="onboarding-body"></section>
-    <button id="onboarding-next" class="primary-btn bottom-btn" type="button" onclick="nextOnboarding()">التالي</button>
-  </main>
-
-  <main id="app-screen" class="app-screen">
-    <header class="app-header">
-      <div>
-        <p id="greeting" class="muted">مرحباً</p>
-        <h2 id="user-name">مستخدم</h2>
-      </div>
-      <div class="header-actions">
-        <button class="ghost-btn" type="button" onclick="openModal('income')">+ دخل</button>
-        <button id="avatar" class="avatar" type="button" onclick="showPage('settings')">ر</button>
-      </div>
-    </header>
-
-    <nav id="month-tabs" class="month-tabs" aria-label="اختيار الشهر"></nav>
-
-    <section id="page-home" class="page active">
-      <article class="hero-card">
-        <div class="hero-top">
-          <div>
-            <span class="eyebrow">ملخص الشهر</span>
-            <h1 id="month-title">الشهر الحالي</h1>
-          </div>
-          <button class="small-btn" type="button" onclick="openModal('month')">شهر جديد</button>
-        </div>
-        <div class="balance-box">
-          <span>صافي الشهر</span>
-          <strong id="net-total">0</strong>
-          <small id="net-note">الدخل ناقص المصاريف</small>
-        </div>
-        <div class="summary-grid">
-          <div class="summary income"><span>دخل الشهر</span><strong id="income-total">0</strong></div>
-          <div class="summary expense"><span>مصاريف الشهر</span><strong id="expense-total">0</strong></div>
-          <div class="summary"><span>المتبقي من الميزانية</span><strong id="budget-left">0</strong></div>
-          <div class="summary"><span>عدد العمليات</span><strong id="transactions-count">0</strong></div>
-        </div>
-      </article>
-
-      <section class="quick-actions">
-        <button type="button" onclick="openModal('expense')"><span>مصروف</span><strong>+</strong></button>
-        <button type="button" onclick="openModal('income')"><span>دخل</span><strong>+</strong></button>
-        <button type="button" onclick="openModal('budget')"><span>ميزانية</span><strong>تعديل</strong></button>
-        <button type="button" onclick="showPage('monthly')"><span>تفاصيل الشهر</span><strong>عرض</strong></button>
-      </section>
-
-      <section class="panel">
-        <div class="panel-head"><h3>تحليل سريع</h3></div>
-        <p id="smart-insight" class="smart-text">أضف دخلك ومصاريفك ليظهر التحليل.</p>
-      </section>
-
-      <section class="panel">
-        <div class="panel-head"><h3>آخر العمليات</h3><button class="link-btn" type="button" onclick="showPage('transactions')">الكل</button></div>
-        <div id="recent-list" class="list"></div>
-      </section>
-    </section>
-
-    <section id="page-monthly" class="page">
-      <div class="page-title">
-        <h1>مصاريف ودخل الشهر</h1>
-        <p id="monthly-subtitle">اعرف أمورك ماشية إزاي في الشهر ده.</p>
-      </div>
-      <section class="panel">
-        <div id="monthly-health" class="health-card"></div>
-      </section>
-      <section class="panel">
-        <div class="panel-head"><h3>حسب النوع</h3></div>
-        <div id="category-summary" class="category-summary"></div>
-      </section>
-      <section class="panel">
-        <div class="panel-head"><h3>توزيع المصاريف</h3></div>
-        <div class="chart-container">
-          <div class="pie-chart"></div>
-        </div>
-      </section>
-    </section>
-
-    <section id="page-wealth" class="page">
-      <div class="page-title">
-        <h1>ثروتي</h1>
-        <p>صورة شاملة عن وضعك المالي الحالي</p>
-      </div>
-      <section class="panel">
-        <div class="wealth-card">
-          <span>إجمالي ثروتك الآن</span>
-          <strong id="total-wealth">0</strong>
-          <span id="wealth-note">مجموع الدخل والمصاريف في كل الشهور</span>
-        </div>
-      </section>
-      <section class="panel">
-        <div class="minute-value">
-          <span>قيمة دقيقتك</span>
-          <strong id="minute-value">0</strong>
-          <span>بناءً على دخلك الشهري</span>
-        </div>
-      </section>
-      <section class="panel">
-        <div class="panel-head"><h3>أهداف الادخار</h3><button class="link-btn" type="button" onclick="openModal('goal')">+ هدف</button></div>
-        <div id="goals-list" class="list"></div>
-      </section>
-      <section class="panel">
-        <div class="panel-head"><h3>الفلوس اللي ليك عند الناس</h3><button class="link-btn" type="button" onclick="openModal('debt')">+ إضافة</button></div>
-        <div id="debts-list" class="list"></div>
-      </section>
-    </section>
-
-    <section id="page-transactions" class="page">
-      <div class="page-title split-title">
-        <div>
-          <h1>السجل</h1>
-          <p>كل أرقامك كما أدخلتها وبنفس العملة.</p>
-        </div>
-        <div class="inline-actions">
-          <button class="small-btn" type="button" onclick="openModal('income')">+ دخل</button>
-          <button class="small-btn danger" type="button" onclick="openModal('expense')">+ مصروف</button>
-        </div>
-      </div>
-      <div class="filter-row">
-        <button class="filter active" type="button" data-filter="all" onclick="setFilter('all')">الكل</button>
-        <button class="filter" type="button" data-filter="income" onclick="setFilter('income')">الدخل</button>
-        <button class="filter" type="button" data-filter="expense" onclick="setFilter('expense')">المصاريف</button>
-      </div>
-      <div id="transactions-list" class="list large-list"></div>
-    </section>
-
-    <section id="page-settings" class="page">
-      <div class="page-title"><h1>الإعدادات</h1><p>تحكم في بياناتك والعملات والميزانية.</p></div>
-      <section class="panel settings-panel">
-        <label>الاسم
-          <input id="settings-name" type="text" />
-        </label>
-        <label>العملة الافتراضية للعرض
-          <select id="settings-default-currency"></select>
-        </label>
-        <label>سعر الصرف (للعملة الموحدة)
-          <input id="settings-exchange-rate" type="number" min="0" step="0.01" placeholder="مثلاً 1" />
-        </label>
-        <label>ميزانية الشهر المختار
-          <input id="settings-budget" type="number" min="0" step="0.01" />
-        </label>
-        <div class="row-actions">
-          <button class="primary-btn" type="button" onclick="saveSettings()">حفظ التعديلات</button>
-          <button class="secondary-btn" type="button" onclick="changePIN()">تغيير الرقم السري</button>
-        </div>
-        <div class="row-actions">
-          <button class="secondary-btn" type="button" onclick="exportData()">تصدير البيانات</button>
-          <button class="secondary-btn" type="button" onclick="logoutUser()">تسجيل الخروج</button>
-        </div>
-      </section>
-    </section>
-
-    <nav class="bottom-nav">
-      <button class="nav-btn active" type="button" data-page="home" onclick="showPage('home')">الرئيسية</button>
-      <button class="nav-btn" type="button" data-page="monthly" onclick="showPage('monthly')">الشهر</button>
-      <button class="fab" type="button" onclick="openModal('expense')">+</button>
-      <button class="nav-btn" type="button" data-page="wealth" onclick="showPage('wealth')">ثروتي</button>
-      <button class="nav-btn" type="button" data-page="settings" onclick="showPage('settings')">الإعدادات</button>
-    </nav>
-  </main>
-
-  <section id="modal" class="modal" aria-hidden="true">
-    <div class="modal-backdrop" onclick="closeModal()"></div>
-    <article class="modal-card">
-      <div class="modal-head">
-        <h2 id="modal-title">إضافة</h2>
-        <button class="x-btn" type="button" onclick="closeModal()">×</button>
-      </div>
-      <form id="transaction-form" class="form modal-form" onsubmit="saveTransaction(event)">
-        <input id="transaction-id" type="hidden" />
-        <input id="transaction-type" type="hidden" />
-        <label>الوصف
-          <input id="transaction-title" type="text" placeholder="مثلاً: مرتب، أكل، مواصلات" required />
-        </label>
-        <div class="two-cols">
-          <label>المبلغ
-            <input id="transaction-amount" type="number" min="0" step="0.01" placeholder="0" required />
-          </label>
-          <label>العملة
-            <select id="transaction-currency" required></select>
-          </label>
-        </div>
-        <label>التصنيف
-          <select id="transaction-category" required></select>
-        </label>
-        <div class="two-cols">
-          <label>التاريخ
-            <input id="transaction-date" type="date" required />
-          </label>
-          <label>الساعة (اختياري)
-            <input id="transaction-time" type="time" />
-          </label>
-        </div>
-        <label>ملاحظة اختيارية
-          <textarea id="transaction-note" rows="3" placeholder="أي تفاصيل إضافية"></textarea>
-        </label>
-        <label style="flex-direction:row;align-items:center;gap:8px;">
-          <input id="transaction-recurring" type="checkbox" style="width:auto;" />
-          <span>تكرار هذه العملية شهرياً</span>
-        </label>
-        <button class="primary-btn" type="submit">حفظ</button>
-      </form>
-
-      <form id="budget-form" class="form modal-form" onsubmit="saveBudget(event)">
-        <label>ميزانية الشهر
-          <input id="budget-amount" type="number" min="0" step="0.01" placeholder="مثلاً 5000" required />
-        </label>
-        <label>عملة الميزانية
-          <select id="budget-currency"></select>
-        </label>
-        <button class="primary-btn" type="submit">حفظ الميزانية</button>
-      </form>
-
-      <form id="month-form" class="form modal-form" onsubmit="addMonth(event)">
-        <label>اختر الشهر
-          <input id="new-month" type="month" required />
-        </label>
-        <button class="primary-btn" type="submit">فتح الشهر</button>
-      </form>
-
-      <form id="goal-form" class="form modal-form" onsubmit="saveGoal(event)">
-        <input id="goal-id" type="hidden" />
-        <label>اسم الهدف
-          <input id="goal-name" type="text" placeholder="مثلاً: شراء موبايل" required />
-        </label>
-        <div class="two-cols">
-          <label>المبلغ المستهدف
-            <input id="goal-target" type="number" min="0" step="0.01" placeholder="0" required />
-          </label>
-          <label>المبلغ الحالي
-            <input id="goal-current" type="number" min="0" step="0.01" placeholder="0" />
-          </label>
-        </div>
-        <label>العملة
-          <select id="goal-currency"></select>
-        </label>
-        <button class="primary-btn" type="submit">حفظ الهدف</button>
-      </form>
-
-      <form id="debt-form" class="form modal-form" onsubmit="saveDebt(event)">
-        <input id="debt-id" type="hidden" />
-        <label>اسم الشخص / الجهة
-          <input id="debt-name" type="text" placeholder="مثلاً: أحمد" required />
-        </label>
-        <div class="two-cols">
-          <label>المبلغ
-            <input id="debt-amount" type="number" min="0" step="0.01" placeholder="0" required />
-          </label>
-          <label>العملة
-            <select id="debt-currency"></select>
-          </label>
-        </div>
-        <label>تاريخ التحصيل المتوقع
-          <input id="debt-date" type="date" />
-        </label>
-        <label>ملاحظة
-          <textarea id="debt-note" rows="2" placeholder="تفاصيل الدين"></textarea>
-        </label>
-        <button class="primary-btn" type="submit">حفظ</button>
-      </form>
-
-      <form id="pin-form" class="form modal-form" onsubmit="updatePIN(event)">
-        <label>الرقم السري الحالي
-          <input id="current-pin" type="text" placeholder="0000" maxlength="4" inputmode="numeric" required />
-        </label>
-        <label>الرقم السري الجديد
-          <input id="new-pin" type="text" placeholder="0000" maxlength="4" inputmode="numeric" required />
-        </label>
-        <label>تأكيد الرقم السري الجديد
-          <input id="confirm-pin" type="text" placeholder="0000" maxlength="4" inputmode="numeric" required />
-        </label>
-        <button class="primary-btn" type="submit">تحديث الرقم السري</button>
-      </form>
-    </article>
+    </div>
   </section>
 
+  <!-- Onboarding Screen -->
+  <section id="onboarding" class="screen onboarding-screen">
+    <div class="top-line">
+      <span id="onboarding-step">خطوة 1 من 4</span>
+      <button class="link-btn" onclick="skipOnboarding()">تخطي</button>
+    </div>
+    <div class="progress-dots" id="progress-dots"></div>
+    <div class="onboarding-body" id="onboarding-body"></div>
+    <button class="primary-btn bottom-btn" id="onboarding-next" onclick="nextOnboarding()">التالي</button>
+  </section>
+
+  <!-- App Screen -->
+  <section id="app" class="screen app-screen">
+    <div class="app-header">
+      <div>
+        <div class="muted">مساء الخير</div>
+        <h2 id="user-name">المستخدم</h2>
+      </div>
+      <div class="header-actions">
+        <button class="ghost-btn" onclick="addIncome()">+ دخل</button>
+        <button class="avatar" id="avatar" onclick="showSettings()">U</button>
+      </div>
+    </div>
+
+    <div id="app-content"></div>
+
+    <div class="bottom-nav">
+      <button class="nav-btn active" onclick="switchTab('home')">
+        <div class="nav-icon">🏠</div>
+        <div>الرئيسية</div>
+      </button>
+      <button class="nav-btn" onclick="switchTab('month')">
+        <div class="nav-icon">📅</div>
+        <div>الشهر</div>
+      </button>
+      <button class="nav-btn" onclick="addTransaction()">
+        <div class="nav-icon">➕</div>
+        <div>إضافة</div>
+      </button>
+      <button class="nav-btn" onclick="switchTab('wealth')">
+        <div class="nav-icon">💰</div>
+        <div>ثروتي</div>
+      </button>
+      <button class="nav-btn" onclick="switchTab('settings')">
+        <div class="nav-icon">⚙️</div>
+        <div>الإعدادات</div>
+      </button>
+    </div>
+  </section>
+
+  <!-- Modal Overlay -->
+  <div id="modal-overlay" class="modal-overlay">
+    <div class="modal-card" id="modal-content"></div>
+  </div>
+
   <script>
-    const STORAGE_USERS = 'rassd_users_v3';
-    const STORAGE_CURRENT = 'rassd_current_user_v3';
-    const STORAGE_PIN = 'rassd_pin_v3';
+    // ==================== STATE MANAGEMENT ====================
+    let currentUser = null;
+    let allUsers = {};
+    let currentTab = 'home';
+    let pinInput = '';
+    let pinMode = 'login'; // 'login' or 'setup'
+    let setupPin = '';
 
-    const CURRENCIES = [
-      { code: 'EGP', label: 'جنيه مصري', symbol: 'ج.م' },
-      { code: 'SAR', label: 'ريال سعودي', symbol: 'ر.س' },
-      { code: 'USD', label: 'دولار أمريكي', symbol: '$' },
-      { code: 'EUR', label: 'يورو', symbol: '€' },
-      { code: 'AED', label: 'درهم إماراتي', symbol: 'د.إ' },
-      { code: 'KWD', label: 'دينار كويتي', symbol: 'د.ك' },
-      { code: 'QAR', label: 'ريال قطري', symbol: 'ر.ق' },
-      { code: 'GBP', label: 'جنيه إسترليني', symbol: '£' },
-      { code: 'TRY', label: 'ليرة تركية', symbol: '₺' },
-      { code: 'CUSTOM', label: 'عملة أخرى', symbol: '' }
-    ];
+    // ==================== INITIALIZATION ====================
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('splash').classList.remove('active');
+        loadUsers();
+        const savedUser = localStorage.getItem('currentUser');
+        if (savedUser) {
+          currentUser = JSON.parse(savedUser);
+          showPinScreen('login');
+        } else {
+          showScreen('auth');
+        }
+      }, 2000);
+    });
 
-    const INCOME_CATEGORIES = ['راتب', 'عمل حر', 'هدية', 'بيع شيء', 'استثمار', 'دخل آخر'];
-    const EXPENSE_CATEGORIES = ['أكل وشرب', 'مواصلات', 'سكن وفواتير', 'قسط أو دين', 'صحة', 'تعليم', 'ترفيه', 'تسوق', 'مصروف آخر'];
-    const MONTH_NAMES = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
-
-    let currentEmail = null;
-    let userData = null;
-    let selectedMonth = getCurrentMonth();
-    let activeFilter = 'all';
-    let onboardingStep = 0;
-    let pinAttempt = '';
-
-    const onboardingSteps = [
-      {
-        title: 'أهلاً بيك في رصد',
-        text: 'هنسألك شوية أسئلة بسيطة أول مرة بس عشان التطبيق يشتغل على بياناتك من البداية.',
-        html: () => ''
-      },
-      {
-        title: 'اختار عملتك الافتراضية',
-        text: 'تقدر بعد كده تختار عملة مختلفة لكل دخل أو مصروف. التطبيق هيعرض الأرقام زي ما دخلتها.',
-        html: () => `<label>العملة الافتراضية<select id="ob-currency">${currencyOptions(userData.defaultCurrency)}</select></label>`
-      },
-      {
-        title: 'دخل الشهر الحالي',
-        text: 'لو معاك دخل أو رصيد داخل الشهر، اكتبه هنا. تقدر تعدله أو تحذفه لاحقاً من السجل.',
-        html: () => `<div class="two-cols"><label>المبلغ<input id="ob-income" type="number" min="0" step="0.01" placeholder="مثلاً 2000"></label><label>العملة<select id="ob-income-currency">${currencyOptions(userData.defaultCurrency)}</select></label></div>`
-      },
-      {
-        title: 'ميزانية الشهر',
-        text: 'حدد سقف تقريبي لمصاريف الشهر عشان تعرف وضعك المالي ماشي إزاي.',
-        html: () => `<div class="two-cols"><label>الميزانية<input id="ob-budget" type="number" min="0" step="0.01" placeholder="مثلاً 5000"></label><label>العملة<select id="ob-budget-currency">${currencyOptions(userData.defaultCurrency)}</select></label></div>`
-      }
-    ];
-
-    const $ = id => document.getElementById(id);
-
-    // ===== STORAGE FUNCTIONS =====
-    function readUsers(){
-      try { return JSON.parse(localStorage.getItem(STORAGE_USERS) || '{}'); }
-      catch { return {}; }
+    // ==================== PIN SCREEN ====================
+    function showPinScreen(mode) {
+      pinMode = mode;
+      pinInput = '';
+      setupPin = '';
+      renderPinPad();
+      showScreen('pin-screen');
     }
 
-    function writeUsers(users){
-      localStorage.setItem(STORAGE_USERS, JSON.stringify(users));
-    }
-
-    function saveUser(){
-      if(!currentEmail || !userData) return;
-      const users = readUsers();
-      if(!users[currentEmail]) return;
-      users[currentEmail].data = userData;
-      writeUsers(users);
-    }
-
-    function makeDefaultData(name){
-      return {
-        name,
-        defaultCurrency: 'EGP',
-        exchangeRate: 1,
-        onboarded: false,
-        months: [getCurrentMonth()],
-        budgets: {},
-        transactions: [],
-        goals: [],
-        debts: []
-      };
-    }
-
-    // ===== UTILITY FUNCTIONS =====
-    function getCurrentMonth(){
-      const d = new Date();
-      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2,'0')}`;
-    }
-
-    function today(){
-      return new Date().toISOString().slice(0, 10);
-    }
-
-    function uid(){
-      return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
-    }
-
-    function normalizeEmail(email){
-      return String(email || '').trim().toLowerCase();
-    }
-
-    function currencyByCode(code){
-      return CURRENCIES.find(c => c.code === code) || { code, label: code, symbol: code };
-    }
-
-    function currencyOptions(selected = 'EGP'){
-      return CURRENCIES.map(c => `<option value="${c.code}" ${c.code === selected ? 'selected' : ''}>${c.label}${c.symbol ? ` — ${c.symbol}` : ''}</option>`).join('');
-    }
-
-    function categoryOptions(type, selected = ''){
-      const cats = type === 'income' ? INCOME_CATEGORIES : EXPENSE_CATEGORIES;
-      return cats.map(c => `<option value="${c}" ${c === selected ? 'selected' : ''}>${c}</option>`).join('');
-    }
-
-    function monthName(month){
-      if(!month) return '';
-      const parts = month.split('-');
-      if(parts.length < 2) return month;
-      const [year, m] = parts;
-      return `${MONTH_NAMES[Number(m) - 1]} ${year}`;
-    }
-
-    function formatAmount(amount, currency){
-      const n = Number(amount || 0);
-      const c = currencyByCode(currency);
-      return `${n.toLocaleString('ar-EG', { maximumFractionDigits: 2 })} ${c.symbol || c.code}`;
-    }
-
-    function parseAmountValue(value){
-      const n = Number(value);
-      return Number.isFinite(n) ? n : 0;
-    }
-
-    function showError(id, msg){
-      const el = $(id);
-      if(!el) return;
-      el.textContent = msg;
-      el.classList.add('show');
-      setTimeout(() => el.classList.remove('show'), 3500);
-    }
-
-    // ===== PIN FUNCTIONS =====
-    function showPINScreen(){
-      $('splash-screen').classList.remove('active');
-      $('pin-screen').classList.add('active');
-      renderPINPad();
-    }
-
-    function renderPINPad(){
-      const dots = $('pin-dots');
-      dots.innerHTML = Array(4).fill(0).map((_, i) => `<div class="pin-dot ${i < pinAttempt.length ? 'filled' : ''}"></div>`).join('');
+    function renderPinPad() {
+      const dotsContainer = document.getElementById('pin-dots');
+      const padContainer = document.getElementById('pin-pad');
       
-      const pad = $('pin-pad');
-      pad.innerHTML = '';
-      for(let i = 1; i <= 9; i++){
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'pin-btn';
-        btn.textContent = i;
-        btn.onclick = () => addPINDigit(i);
-        pad.appendChild(btn);
+      dotsContainer.innerHTML = '';
+      for (let i = 0; i < 4; i++) {
+        const dot = document.createElement('div');
+        dot.className = `pin-dot ${i < pinInput.length ? 'filled' : ''}`;
+        dotsContainer.appendChild(dot);
       }
-      const deleteBtn = document.createElement('button');
-      deleteBtn.type = 'button';
-      deleteBtn.className = 'pin-btn delete';
-      deleteBtn.textContent = '⌫';
-      deleteBtn.onclick = () => deletePINDigit();
-      pad.appendChild(deleteBtn);
-      const zeroBtn = document.createElement('button');
-      zeroBtn.type = 'button';
-      zeroBtn.className = 'pin-btn';
-      zeroBtn.textContent = '0';
-      zeroBtn.onclick = () => addPINDigit(0);
-      pad.appendChild(zeroBtn);
-    }
 
-    function addPINDigit(digit){
-      if(pinAttempt.length < 4){
-        pinAttempt += digit;
-        renderPINPad();
-        if(pinAttempt.length === 4) verifyPIN();
-      }
-    }
-
-    function deletePINDigit(){
-      pinAttempt = pinAttempt.slice(0, -1);
-      renderPINPad();
-    }
-
-    function verifyPIN(){
-      const users = readUsers();
-      const userPIN = users[currentEmail]?.pin;
-      if(pinAttempt === userPIN){
-        $('pin-screen').classList.remove('active');
-        openApp();
-      } else {
-        pinAttempt = '';
-        renderPINPad();
-        showError('pin-screen', 'الرقم السري غير صحيح');
+      if (padContainer.children.length === 0) {
+        for (let i = 1; i <= 9; i++) {
+          const btn = document.createElement('button');
+          btn.className = 'pin-btn';
+          btn.textContent = i;
+          btn.type = 'button';
+          btn.onclick = () => addPinDigit(i);
+          padContainer.appendChild(btn);
+        }
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'pin-btn delete';
+        deleteBtn.textContent = '⌫';
+        deleteBtn.type = 'button';
+        deleteBtn.onclick = removePinDigit;
+        padContainer.appendChild(deleteBtn);
+        const zeroBtn = document.createElement('button');
+        zeroBtn.className = 'pin-btn';
+        zeroBtn.textContent = '0';
+        zeroBtn.type = 'button';
+        zeroBtn.onclick = () => addPinDigit(0);
+        padContainer.appendChild(zeroBtn);
       }
     }
 
-    // ===== AUTH FUNCTIONS =====
-    function switchAuth(mode){
-      $('login-tab').classList.toggle('active', mode === 'login');
-      $('signup-tab').classList.toggle('active', mode === 'signup');
-      $('login-form').classList.toggle('active', mode === 'login');
-      $('signup-form').classList.toggle('active', mode === 'signup');
-    }
-
-    function loginUser(event){
-      event.preventDefault();
-      const emailInput = $('login-email');
-      const passwordInput = $('login-password');
-      if(!emailInput || !passwordInput) return;
-      
-      const email = normalizeEmail(emailInput.value);
-      const password = passwordInput.value;
-      const users = readUsers();
-
-      if(!users[email] || users[email].password !== password){
-        showError('login-error', 'البريد الإلكتروني أو كلمة المرور غير صحيحة.');
-        return;
-      }
-
-      currentEmail = email;
-      userData = users[email].data || makeDefaultData(users[email].name || email.split('@')[0]);
-      localStorage.setItem(STORAGE_CURRENT, currentEmail);
-      selectedMonth = getCurrentMonth();
-      ensureMonth(selectedMonth);
-      saveUser();
-
-      $('auth-screen').classList.remove('active');
-      showPINScreen();
-    }
-
-    function signupUser(event){
-      event.preventDefault();
-      const name = $('signup-name').value.trim();
-      const email = normalizeEmail($('signup-email').value);
-      const password = $('signup-password').value;
-      const password2 = $('signup-password2').value;
-      const pin = $('signup-pin').value;
-      const users = readUsers();
-
-      if(!name || !email || password.length < 6 || password !== password2 || pin.length !== 4){
-        showError('signup-error', 'تأكد من الاسم والبريد وأن كلمة المرور 6 أحرف وأن الرقم السري 4 أرقام.');
-        return;
-      }
-      if(users[email]){
-        showError('signup-error', 'هذا البريد مسجل بالفعل. استخدم تسجيل الدخول.');
-        return;
-      }
-
-      users[email] = { password, pin, createdAt: new Date().toISOString(), data: makeDefaultData(name) };
-      writeUsers(users);
-      currentEmail = email;
-      userData = users[email].data;
-      localStorage.setItem(STORAGE_CURRENT, currentEmail);
-      selectedMonth = getCurrentMonth();
-      showOnboarding();
-    }
-
-    // ===== ONBOARDING =====
-    function showOnboarding(){
-      $('auth-screen').classList.remove('active');
-      $('app-screen').classList.remove('active');
-      $('onboarding-screen').classList.add('active');
-      onboardingStep = 0;
-      renderOnboarding();
-    }
-
-    function renderOnboarding(){
-      const step = onboardingSteps[onboardingStep];
-      $('onboarding-step-label').textContent = `خطوة ${onboardingStep + 1} من ${onboardingSteps.length}`;
-      $('progress-dots').innerHTML = onboardingSteps.map((_, i) => `<span class="${i <= onboardingStep ? 'active' : ''}"></span>`).join('');
-      $('onboarding-body').innerHTML = `<h1>${step.title}</h1><p>${step.text}</p>${step.html()}`;
-      $('onboarding-next').textContent = onboardingStep === onboardingSteps.length - 1 ? 'ابدأ استخدام التطبيق' : 'التالي';
-    }
-
-    function collectOnboardingStep(){
-      if(onboardingStep === 1){
-        const v = $('ob-currency')?.value;
-        if(v) userData.defaultCurrency = v;
-      }
-      if(onboardingStep === 2){
-        const amount = parseAmountValue($('ob-income')?.value);
-        const currency = $('ob-income-currency')?.value || userData.defaultCurrency;
-        if(amount > 0){
-          userData.transactions.push({
-            id: uid(), type: 'income', title: 'دخل بداية الشهر', amount, currency,
-            category: 'راتب', date: today(), time: '09:00', note: 'تمت إضافته أثناء تهيئة الحساب', createdAt: new Date().toISOString(), recurring: false
-          });
+    function addPinDigit(digit) {
+      if (pinInput.length < 4) {
+        pinInput += digit;
+        updatePinDots();
+        if (pinInput.length === 4) {
+          setTimeout(checkPin, 300);
         }
       }
-      if(onboardingStep === 3){
-        const amount = parseAmountValue($('ob-budget')?.value);
-        const currency = $('ob-budget-currency')?.value || userData.defaultCurrency;
-        if(amount > 0) userData.budgets[selectedMonth] = { amount, currency };
-      }
-      ensureMonth(selectedMonth);
-      saveUser();
     }
 
-    function nextOnboarding(){
-      collectOnboardingStep();
-      if(onboardingStep < onboardingSteps.length - 1){
-        onboardingStep += 1;
-        renderOnboarding();
-      }else{
-        finishOnboarding();
-      }
+    function removePinDigit() {
+      pinInput = pinInput.slice(0, -1);
+      updatePinDots();
     }
 
-    function finishOnboarding(){
-      if(!userData) return;
-      userData.onboarded = true;
-      ensureMonth(selectedMonth);
-      saveUser();
-      $('onboarding-screen').classList.remove('active');
-      showPINScreen();
-    }
-
-    // ===== APP FUNCTIONS =====
-    function openApp(){
-      $('pin-screen').classList.remove('active');
-      $('app-screen').classList.add('active');
-      renderAll();
-    }
-
-    function logoutUser(){
-      localStorage.removeItem(STORAGE_CURRENT);
-      currentEmail = null;
-      userData = null;
-      pinAttempt = '';
-      $('app-screen').classList.remove('active');
-      $('auth-screen').classList.add('active');
-      switchAuth('login');
-    }
-
-    function ensureMonth(month){
-      if(!userData.months.includes(month)) userData.months.push(month);
-      userData.months.sort().reverse();
-    }
-
-    function addMonth(event){
-      event.preventDefault();
-      const month = $('new-month').value;
-      if(!month) return;
-      selectedMonth = month;
-      ensureMonth(month);
-      saveUser();
-      closeModal();
-      renderAll();
-    }
-
-    function monthTransactions(){
-      return userData.transactions.filter(t => t.date && t.date.slice(0,7) === selectedMonth);
-    }
-
-    function totalsForMonth(){
-      const txs = monthTransactions();
-      const income = txs.filter(t => t.type === 'income').reduce((s,t) => s + Number(t.amount || 0), 0);
-      const expense = txs.filter(t => t.type === 'expense').reduce((s,t) => s + Number(t.amount || 0), 0);
-      return { income, expense, net: income - expense, count: txs.length };
-    }
-
-    function summaryByCurrency(type){
-      const map = new Map();
-      monthTransactions().filter(t => t.type === type).forEach(t => {
-        map.set(t.currency, (map.get(t.currency) || 0) + Number(t.amount || 0));
+    function updatePinDots() {
+      const dots = document.querySelectorAll('.pin-dot');
+      dots.forEach((dot, i) => {
+        if (i < pinInput.length) {
+          dot.classList.add('filled');
+        } else {
+          dot.classList.remove('filled');
+        }
       });
-      return Array.from(map.entries()).map(([currency, amount]) => formatAmount(amount, currency)).join(' + ') || formatAmount(0, userData.defaultCurrency);
     }
 
-    function calculateWealth(){
-      let total = 0;
-      userData.transactions.forEach(t => {
-        const amount = Number(t.amount || 0);
-        if(t.type === 'income') total += amount;
-        else total -= amount;
-      });
-      return total;
-    }
-
-    function calculateMinuteValue(){
-      const monthlyIncome = monthTransactions().filter(t => t.type === 'income').reduce((s,t) => s + Number(t.amount || 0), 0);
-      const minutesInMonth = 30 * 24 * 60;
-      return monthlyIncome > 0 ? monthlyIncome / minutesInMonth : 0;
-    }
-
-    function renderAll(){
-      if(!userData) return;
-      renderHeader();
-      renderMonths();
-      renderHome();
-      renderMonthly();
-      renderTransactions();
-      renderWealth();
-      renderSettings();
-    }
-
-    function renderHeader(){
-      $('greeting').textContent = getGreeting();
-      $('user-name').textContent = userData.name;
-      $('avatar').textContent = (userData.name || 'ر').trim()[0];
-    }
-
-    function getGreeting(){
-      const h = new Date().getHours();
-      if(h < 12) return 'صباح الخير';
-      if(h < 18) return 'مساء الخير';
-      return 'مساء النور';
-    }
-
-    function renderMonths(){
-      ensureMonth(getCurrentMonth());
-      const months = [...new Set(userData.months.concat(userData.transactions.map(t => t.date.slice(0,7))))].filter(Boolean).sort().reverse();
-      userData.months = months;
-      $('month-tabs').innerHTML = months.map(m => `<button class="month-tab ${m === selectedMonth ? 'active' : ''}" type="button" onclick="selectMonth('${m}')">${monthName(m)}</button>`).join('');
-    }
-
-    function selectMonth(month){
-      selectedMonth = month;
-      ensureMonth(month);
-      saveUser();
-      renderAll();
-    }
-
-    function renderHome(){
-      const totals = totalsForMonth();
-      const budget = userData.budgets[selectedMonth];
-      $('month-title').textContent = monthName(selectedMonth);
-      $('net-total').textContent = summaryNetText();
-      $('income-total').textContent = summaryByCurrency('income');
-      $('expense-total').textContent = summaryByCurrency('expense');
-      $('transactions-count').textContent = totals.count.toLocaleString('ar-EG');
-      $('budget-left').textContent = budget ? formatAmount(Math.max(0, Number(budget.amount || 0) - totals.expense), budget.currency) : 'غير محددة';
-      $('smart-insight').textContent = getInsight(totals, budget);
-      const recent = monthTransactions().sort((a,b) => b.date.localeCompare(a.date) || (b.time || '').localeCompare(a.time || '') || b.createdAt.localeCompare(a.createdAt)).slice(0,5);
-      $('recent-list').innerHTML = recent.length ? recent.map(transactionHTML).join('') : '<div class="empty">لا توجد عمليات في هذا الشهر بعد. أضف دخلك ومصاريفك لتبدأ المتابعة.</div>';
-    }
-
-    function summaryNetText(){
-      const currencies = new Set(monthTransactions().map(t => t.currency));
-      if(currencies.size <= 1){
-        const currency = [...currencies][0] || userData.defaultCurrency;
-        const income = monthTransactions().filter(t => t.type === 'income').reduce((s,t) => s + Number(t.amount || 0), 0);
-        const expense = monthTransactions().filter(t => t.type === 'expense').reduce((s,t) => s + Number(t.amount || 0), 0);
-        return formatAmount(income - expense, currency);
+    function checkPin() {
+      if (pinMode === 'login') {
+        if (pinInput === currentUser.pin) {
+          showScreen('app');
+          renderApp();
+        } else {
+          pinInput = '';
+          updatePinDots();
+          alert('رقم سري خاطئ');
+        }
+      } else if (pinMode === 'setup') {
+        if (!setupPin) {
+          setupPin = pinInput;
+          pinInput = '';
+          updatePinDots();
+          document.querySelector('.pin-title').textContent = 'أعد إدخال الرقم السري';
+        } else if (pinInput === setupPin) {
+          currentUser.pin = pinInput;
+          localStorage.setItem('currentUser', JSON.stringify(currentUser));
+          allUsers[currentUser.email] = currentUser;
+          localStorage.setItem('allUsers', JSON.stringify(allUsers));
+          showScreen('onboarding');
+          initOnboarding();
+        } else {
+          setupPin = '';
+          pinInput = '';
+          updatePinDots();
+          document.querySelector('.pin-title').textContent = 'أدخل الرقم السري';
+          alert('الأرقام السرية غير متطابقة');
+        }
       }
-      return 'أكثر من عملة';
     }
 
-    function getInsight(totals, budget){
-      if(totals.count === 0) return 'لسه مفيش بيانات للشهر ده. ابدأ بإضافة الدخل الحالي ثم سجل المصاريف أول بأول.';
-      if(!budget) return 'أضف ميزانية للشهر عشان نقدر نقولك أنت ماشي داخل الحدود ولا محتاج تقلل المصاريف.';
-      const spent = totals.expense;
-      const limit = Number(budget.amount || 0);
-      if(!limit) return 'ميزانيتك صفر حالياً. عدّلها من الإعدادات أو زر الميزانية.';
-      const pct = spent / limit;
-      if(pct < .6) return `وضعك جيد. صرفت حوالي ${Math.round(pct*100).toLocaleString('ar-EG')}٪ من ميزانية الشهر.`;
-      if(pct < .9) return `انتبه. وصلت إلى ${Math.round(pct*100).toLocaleString('ar-EG')}٪ من ميزانية الشهر، حاول تراجع المصاريف غير الضرورية.`;
-      return `تحذير. صرفت ${Math.round(pct*100).toLocaleString('ar-EG')}٪ من الميزانية.`;
+    // ==================== AUTH ====================
+    function switchTab(tab) {
+      if (tab === 'login' || tab === 'signup') {
+        document.getElementById('login-form').classList.toggle('active', tab === 'login');
+        document.getElementById('signup-form').classList.toggle('active', tab === 'signup');
+        document.getElementById('login-tab').classList.toggle('active', tab === 'login');
+        document.getElementById('signup-tab').classList.toggle('active', tab === 'signup');
+      }
     }
 
-    function transactionHTML(t){
-      const timeStr = t.time ? ` • ${t.time}` : '';
-      return `
-        <div class="tx">
-          <div class="tx-icon">${t.type === 'income' ? '💰' : '💸'}</div>
-          <div class="tx-info">
-            <strong>${t.title}</strong>
-            <span>${t.category} • ${t.date}${timeStr}</span>
-            <div class="tx-actions">
-              <button class="mini-action" onclick="editTransaction('${t.id}')">تعديل</button>
-              <button class="mini-action delete" onclick="deleteTransaction('${t.id}')">حذف</button>
-            </div>
-          </div>
-          <div class="tx-amount ${t.type}">${t.type === 'income' ? '+' : '-'}${formatAmount(t.amount, t.currency)}</div>
-        </div>
-      `;
-    }
+    function login(e) {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
+      const user = allUsers[email];
 
-    function renderMonthly(){
-      const totals = totalsForMonth();
-      const budget = userData.budgets[selectedMonth];
-      const health = $('monthly-health');
-      if(!totals.count){
-        health.innerHTML = '<div class="empty">أضف عمليات لعرض تحليل الشهر.</div>';
-        $('category-summary').innerHTML = '';
+      if (!user || user.password !== password) {
+        showError('login-error', 'البريد أو كلمة المرور غير صحيحة');
         return;
       }
-      
-      let status = 'good', msg = 'أمورك طيبة ومصاريفك تحت السيطرة.';
-      if(budget){
-        const pct = totals.expense / budget.amount;
-        if(pct > 1){ status = 'bad'; msg = 'لقد تجاوزت الميزانية المحددة لهذا الشهر!'; }
-        else if(pct > 0.8){ status = 'warn'; msg = 'اقتربت جداً من نهاية الميزانية.'; }
+
+      currentUser = user;
+      localStorage.setItem('currentUser', JSON.stringify(currentUser));
+      showPinScreen('login');
+    }
+
+    function signup(e) {
+      e.preventDefault();
+      const name = document.getElementById('signup-name').value;
+      const email = document.getElementById('signup-email').value;
+      const password = document.getElementById('signup-password').value;
+      const password2 = document.getElementById('signup-password2').value;
+
+      if (password !== password2) {
+        showError('signup-error', 'كلمات المرور غير متطابقة');
+        return;
       }
 
-      health.innerHTML = `
-        <div class="health-main ${status}">
-          <strong>${status === 'good' ? 'ممتاز' : status === 'warn' ? 'انتبه' : 'خطر'}</strong>
-          <p>${msg}</p>
-          ${budget ? `<div class="bar"><span style="width:${Math.min(100, (totals.expense/budget.amount)*100)}%"></span></div>` : ''}
+      if (allUsers[email]) {
+        showError('signup-error', 'هذا البريد مسجل بالفعل');
+        return;
+      }
+
+      currentUser = {
+        email,
+        name,
+        password,
+        pin: '',
+        months: {},
+        debts: [],
+        goals: [],
+        baseCurrency: 'EGP',
+        exchangeRates: { EGP: 1 }
+      };
+
+      localStorage.setItem('currentUser', JSON.stringify(currentUser));
+      showPinScreen('setup');
+    }
+
+    function showError(elementId, message) {
+      const errorEl = document.getElementById(elementId);
+      errorEl.textContent = message;
+      errorEl.classList.add('show');
+      setTimeout(() => errorEl.classList.remove('show'), 3000);
+    }
+
+    // ==================== ONBOARDING ====================
+    function initOnboarding() {
+      const steps = [
+        { title: 'أهلاً بيك في رصد', text: 'هنسألك شوية أسئلة بسيطة أول مرة بس عشان التطبيق يشتغل على بياناتك من البداية.' },
+        { title: 'اختر عملاتك', text: 'تحديد العملات اللي بتتعامل بيها (مثل جنيه، دولار، يورو)' },
+        { title: 'دخلك الشهري', text: 'أدخل دخلك الشهري الحالي عشان نحسب لك قيمة دقيقتك' },
+        { title: 'ميزانيتك', text: 'حدد الميزانية الشهرية اللي بتريد تصرفها' }
+      ];
+
+      let currentStep = 0;
+      window.nextOnboarding = () => {
+        if (currentStep < steps.length - 1) {
+          currentStep++;
+          renderOnboardingStep(steps, currentStep);
+        } else {
+          showScreen('app');
+          renderApp();
+        }
+      };
+      window.skipOnboarding = () => {
+        showScreen('app');
+        renderApp();
+      };
+
+      renderOnboardingStep(steps, 0);
+    }
+
+    function renderOnboardingStep(steps, step) {
+      document.getElementById('onboarding-step').textContent = `خطوة ${step + 1} من 4`;
+      const body = document.getElementById('onboarding-body');
+      body.innerHTML = `<h1>${steps[step].title}</h1><p>${steps[step].text}</p>`;
+      
+      const dots = document.getElementById('progress-dots');
+      dots.innerHTML = '';
+      for (let i = 0; i < 4; i++) {
+        const dot = document.createElement('span');
+        dot.className = i <= step ? 'active' : '';
+        dots.appendChild(dot);
+      }
+    }
+
+    // ==================== APP RENDERING ====================
+    function renderApp() {
+      currentTab = 'home';
+      updateNavigation();
+      renderHomeTab();
+    }
+
+    function renderHomeTab() {
+      const content = document.getElementById('app-content');
+      const currentMonth = new Date().toISOString().slice(0, 7);
+      const monthData = currentUser.months[currentMonth] || { income: 0, expenses: 0, budget: 0, transactions: [] };
+
+      content.innerHTML = `
+        <div class="month-tabs">
+          <button class="month-tab active" onclick="switchMonth('${currentMonth}')">${new Date().toLocaleDateString('ar-EG', { month: 'long', year: 'numeric' })}</button>
+          <button class="month-tab" onclick="addNewMonth()">+ شهر جديد</button>
         </div>
+
+        <div class="summary-card">
+          <div class="summary-row">
+            <span class="summary-label">صافي الشهر</span>
+            <span class="summary-value">${(monthData.income - monthData.expenses).toFixed(2)} ${currentUser.baseCurrency}</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-label">دخل الشهر</span>
+            <span class="summary-value" style="color: var(--green)">${monthData.income.toFixed(2)} ${currentUser.baseCurrency}</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-label">مصاريف الشهر</span>
+            <span class="summary-value" style="color: var(--red)">${monthData.expenses.toFixed(2)} ${currentUser.baseCurrency}</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-label">المتبقي من الميزانية</span>
+            <span class="summary-value">${monthData.budget ? (monthData.budget - monthData.expenses).toFixed(2) : 'غير محددة'} ${currentUser.baseCurrency}</span>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 10px; margin-bottom: 16px;">
+          <button class="ghost-btn" style="flex: 1;" onclick="addTransaction('expense')">مصروف +</button>
+          <button class="ghost-btn" style="flex: 1;" onclick="addTransaction('income')">دخل +</button>
+          <button class="ghost-btn" style="flex: 1;" onclick="editBudget()">تعديل ميزانية</button>
+        </div>
+
+        <h3 class="section-title">آخر العمليات</h3>
+        <div id="transactions-list"></div>
       `;
 
-      const cats = {};
-      monthTransactions().forEach(t => {
-        cats[t.category] = (cats[t.category] || 0) + Number(t.amount);
-      });
-      $('category-summary').innerHTML = Object.entries(cats).map(([cat, amt]) => `
-        <div class="cat-row"><span>${cat}</span><strong>${amt.toLocaleString('ar-EG')}</strong></div>
+      renderTransactionsList(monthData.transactions);
+    }
+
+    function renderTransactionsList(transactions) {
+      const list = document.getElementById('transactions-list');
+      if (!transactions || transactions.length === 0) {
+        list.innerHTML = '<div class="muted-text">لا توجد عمليات في هذا الشهر بعد. أضف دخلك ومصاريفك لتبدأ المتابعة.</div>';
+        return;
+      }
+
+      list.innerHTML = transactions.map(t => `
+        <div class="debt-item">
+          <div class="debt-info">
+            <div class="debt-name">${t.name}</div>
+            <div class="debt-date">${t.date} - ${t.category}</div>
+          </div>
+          <div class="debt-amount" style="color: ${t.type === 'income' ? 'var(--green)' : 'var(--red)'}">${t.type === 'income' ? '+' : '-'}${t.amount} ${t.currency}</div>
+        </div>
       `).join('');
     }
 
-    function renderTransactions(){
-      let txs = monthTransactions();
-      if(activeFilter !== 'all') txs = txs.filter(t => t.type === activeFilter);
-      txs.sort((a,b) => b.date.localeCompare(a.date) || (b.time || '').localeCompare(a.time || '') || b.createdAt.localeCompare(a.createdAt));
+    function switchMonth(month) {
+      // Implementation for switching months
+    }
+
+    function addNewMonth() {
+      // Implementation for adding new month
+    }
+
+    function addTransaction(type = null) {
+      const modal = document.getElementById('modal-overlay');
+      const content = document.getElementById('modal-content');
       
-      $('transactions-list').innerHTML = txs.length ? txs.map(t => `
-        <div class="tx">
-          <div class="tx-info">
-            <strong>${t.title}</strong>
-            <span>${t.category} • ${t.date}${t.time ? ' • ' + t.time : ''}</span>
-            <div class="tx-actions">
-              <button class="mini-action" onclick="editTransaction('${t.id}')">تعديل</button>
-              <button class="mini-action delete" onclick="deleteTransaction('${t.id}')">حذف</button>
-            </div>
-          </div>
-          <div class="tx-amount ${t.type}">${t.type === 'income' ? '+' : '-'}${formatAmount(t.amount, t.currency)}</div>
+      content.innerHTML = `
+        <div class="modal-header">
+          <h3>${type === 'income' ? 'إضافة دخل' : type === 'expense' ? 'إضافة مصروف' : 'إضافة عملية'}</h3>
+          <button class="close-btn" onclick="closeModal()">✕</button>
         </div>
-      `).join('') : '<div class="empty">لا توجد عمليات تطابق الفلتر.</div>';
-    }
-
-    function renderWealth(){
-      const wealth = calculateWealth();
-      const minuteValue = calculateMinuteValue();
-      $('total-wealth').textContent = formatAmount(wealth, userData.defaultCurrency);
-      $('minute-value').textContent = formatAmount(minuteValue, userData.defaultCurrency);
-
-      // Render goals
-      const goalsList = $('goals-list');
-      if(userData.goals && userData.goals.length){
-        goalsList.innerHTML = userData.goals.map(g => {
-          const pct = Math.min(100, (g.current / g.target) * 100);
-          return `
-            <div class="goal-card">
-              <div class="goal-header">
-                <strong>${g.name}</strong>
-                <span>${Math.round(pct)}%</span>
-              </div>
-              <div class="goal-progress">
-                <span style="width:${pct}%"></span>
-              </div>
-              <div class="tx-actions" style="margin-top:8px;">
-                <button class="mini-action" onclick="editGoal('${g.id}')">تعديل</button>
-                <button class="mini-action delete" onclick="deleteGoal('${g.id}')">حذف</button>
-              </div>
-            </div>
-          `;
-        }).join('');
-      }else{
-        goalsList.innerHTML = '<div class="empty">لا توجد أهداف ادخار حالياً. أضف هدفك الأول!</div>';
-      }
-
-      // Render debts
-      const debtsList = $('debts-list');
-      if(userData.debts && userData.debts.length){
-        debtsList.innerHTML = userData.debts.map(d => `
-          <div class="debt-card">
-            <div class="debt-header">
-              <strong>${d.name}</strong>
-              <span>${d.date ? d.date : 'بدون تاريخ'}</span>
-            </div>
-            <div class="debt-amount">${formatAmount(d.amount, d.currency)}</div>
-            <div class="debt-actions">
-              <button class="mini-action" onclick="editDebt('${d.id}')">تعديل</button>
-              <button class="mini-action" onclick="collectDebt('${d.id}')">تم التحصيل</button>
-              <button class="mini-action delete" onclick="deleteDebt('${d.id}')">حذف</button>
-            </div>
-          </div>
-        `).join('');
-      }else{
-        debtsList.innerHTML = '<div class="empty">لا توجد فلوس ليك عند الناس حالياً.</div>';
-      }
-    }
-
-    function setFilter(f){
-      activeFilter = f;
-      document.querySelectorAll('.filter').forEach(btn => btn.classList.toggle('active', btn.dataset.filter === f));
-      renderTransactions();
-    }
-
-    function renderSettings(){
-      $('settings-name').value = userData.name;
-      $('settings-default-currency').innerHTML = currencyOptions(userData.defaultCurrency);
-      $('settings-exchange-rate').value = userData.exchangeRate || 1;
-      const budget = userData.budgets[selectedMonth];
-      $('settings-budget').value = budget ? budget.amount : '';
-    }
-
-    function saveSettings(){
-      userData.name = $('settings-name').value.trim() || userData.name;
-      userData.defaultCurrency = $('settings-default-currency').value;
-      userData.exchangeRate = parseAmountValue($('settings-exchange-rate').value) || 1;
-      const bAmt = parseAmountValue($('settings-budget').value);
-      if(bAmt > 0) userData.budgets[selectedMonth] = { amount: bAmt, currency: userData.defaultCurrency };
-      saveUser();
-      renderAll();
-      alert('تم حفظ الإعدادات بنجاح');
-    }
-
-    function changePIN(){
-      openModal('pin');
-    }
-
-    function updatePIN(e){
-      e.preventDefault();
-      const users = readUsers();
-      const currentPIN = $('current-pin').value;
-      const newPIN = $('new-pin').value;
-      const confirmPIN = $('confirm-pin').value;
-
-      if(currentPIN !== users[currentEmail]?.pin){
-        alert('الرقم السري الحالي غير صحيح');
-        return;
-      }
-      if(newPIN !== confirmPIN){
-        alert('الرقم السري الجديد غير متطابق');
-        return;
-      }
-      if(newPIN.length !== 4){
-        alert('الرقم السري يجب أن يكون 4 أرقام');
-        return;
-      }
-
-      users[currentEmail].pin = newPIN;
-      writeUsers(users);
-      closeModal();
-      alert('تم تحديث الرقم السري بنجاح');
-    }
-
-    function exportData(){
-      const data = {
-        user: userData,
-        exportDate: new Date().toISOString()
-      };
-      const json = JSON.stringify(data, null, 2);
-      const blob = new Blob([json], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `rassd_backup_${new Date().toISOString().slice(0,10)}.json`;
-      a.click();
-      URL.revokeObjectURL(url);
-    }
-
-    function showPage(p){
-      document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
-      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.page === p));
-      $(`page-${p}`).classList.add('active');
-      renderAll();
-    }
-
-    function openModal(type, id = null){
-      $('modal').classList.add('active');
-      document.querySelectorAll('.modal-form').forEach(f => f.classList.remove('active'));
+        <form onsubmit="saveTransaction(event, '${type || 'expense'}')">
+          <label>الوصف
+            <input type="text" id="trans-name" placeholder="اكتب وصف العملية" required />
+          </label>
+          <label>المبلغ
+            <input type="number" id="trans-amount" placeholder="0.00" step="0.01" required />
+          </label>
+          <label>العملة
+            <select id="trans-currency">
+              <option value="EGP">جنيه مصري</option>
+              <option value="USD">دولار</option>
+              <option value="EUR">يورو</option>
+            </select>
+          </label>
+          <label>التاريخ
+            <input type="date" id="trans-date" required />
+          </label>
+          <button class="primary-btn" type="submit">حفظ</button>
+        </form>
+      `;
       
-      if(type === 'income' || type === 'expense'){
-        $('transaction-form').classList.add('active');
-        $('modal-title').textContent = type === 'income' ? 'إضافة دخل' : 'إضافة مصروف';
-        $('transaction-type').value = type;
-        $('transaction-currency').innerHTML = currencyOptions(userData.defaultCurrency);
-        $('transaction-category').innerHTML = categoryOptions(type);
-        $('transaction-date').value = today();
-        $('transaction-time').value = '';
-        $('transaction-recurring').checked = false;
-        
-        if(id){
-          const t = userData.transactions.find(x => x.id === id);
-          if(t){
-            $('transaction-id').value = t.id;
-            $('transaction-title').value = t.title;
-            $('transaction-amount').value = t.amount;
-            $('transaction-currency').value = t.currency;
-            $('transaction-category').value = t.category;
-            $('transaction-date').value = t.date;
-            $('transaction-time').value = t.time || '';
-            $('transaction-note').value = t.note || '';
-            $('transaction-recurring').checked = t.recurring || false;
-          }
-        }else{
-          $('transaction-id').value = '';
-          $('transaction-title').value = '';
-          $('transaction-amount').value = '';
-          $('transaction-note').value = '';
+      document.getElementById('trans-date').valueAsDate = new Date();
+      modal.classList.add('active');
+    }
+
+    function saveTransaction(e, type) {
+      e.preventDefault();
+      const currentMonth = new Date().toISOString().slice(0, 7);
+      
+      if (!currentUser.months[currentMonth]) {
+        currentUser.months[currentMonth] = { income: 0, expenses: 0, budget: 0, transactions: [] };
+      }
+
+      const transaction = {
+        name: document.getElementById('trans-name').value,
+        amount: parseFloat(document.getElementById('trans-amount').value),
+        currency: document.getElementById('trans-currency').value,
+        date: document.getElementById('trans-date').value,
+        type: type,
+        category: 'عام'
+      };
+
+      currentUser.months[currentMonth].transactions.push(transaction);
+      
+      if (type === 'income') {
+        currentUser.months[currentMonth].income += transaction.amount;
+      } else {
+        currentUser.months[currentMonth].expenses += transaction.amount;
+      }
+
+      localStorage.setItem('currentUser', JSON.stringify(currentUser));
+      closeModal();
+      renderHomeTab();
+    }
+
+    function editBudget() {
+      const currentMonth = new Date().toISOString().slice(0, 7);
+      const budget = currentUser.months[currentMonth]?.budget || 0;
+      const newBudget = prompt('أدخل الميزانية الشهرية:', budget);
+      
+      if (newBudget !== null) {
+        if (!currentUser.months[currentMonth]) {
+          currentUser.months[currentMonth] = { income: 0, expenses: 0, budget: 0, transactions: [] };
         }
-      } else if(type === 'budget'){
-        $('budget-form').classList.add('active');
-        $('modal-title').textContent = 'تعديل الميزانية';
-        const b = userData.budgets[selectedMonth];
-        $('budget-amount').value = b ? b.amount : '';
-        $('budget-currency').innerHTML = currencyOptions(b ? b.currency : userData.defaultCurrency);
-      } else if(type === 'month'){
-        $('month-form').classList.add('active');
-        $('modal-title').textContent = 'فتح شهر جديد';
-        $('new-month').value = getCurrentMonth();
-      } else if(type === 'goal'){
-        $('goal-form').classList.add('active');
-        $('modal-title').textContent = id ? 'تعديل الهدف' : 'إضافة هدف ادخار';
-        $('goal-currency').innerHTML = currencyOptions(userData.defaultCurrency);
-        if(id){
-          const g = userData.goals.find(x => x.id === id);
-          if(g){
-            $('goal-id').value = g.id;
-            $('goal-name').value = g.name;
-            $('goal-target').value = g.target;
-            $('goal-current').value = g.current;
-            $('goal-currency').value = g.currency;
-          }
-        }else{
-          $('goal-id').value = '';
-          $('goal-name').value = '';
-          $('goal-target').value = '';
-          $('goal-current').value = '0';
-        }
-      } else if(type === 'debt'){
-        $('debt-form').classList.add('active');
-        $('modal-title').textContent = id ? 'تعديل الدين' : 'إضافة فلوس ليك';
-        $('debt-currency').innerHTML = currencyOptions(userData.defaultCurrency);
-        if(id){
-          const d = userData.debts.find(x => x.id === id);
-          if(d){
-            $('debt-id').value = d.id;
-            $('debt-name').value = d.name;
-            $('debt-amount').value = d.amount;
-            $('debt-currency').value = d.currency;
-            $('debt-date').value = d.date || '';
-            $('debt-note').value = d.note || '';
-          }
-        }else{
-          $('debt-id').value = '';
-          $('debt-name').value = '';
-          $('debt-amount').value = '';
-          $('debt-date').value = '';
-          $('debt-note').value = '';
-        }
-      } else if(type === 'pin'){
-        $('pin-form').classList.add('active');
-        $('modal-title').textContent = 'تغيير الرقم السري';
-        $('current-pin').value = '';
-        $('new-pin').value = '';
-        $('confirm-pin').value = '';
+        currentUser.months[currentMonth].budget = parseFloat(newBudget);
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+        renderHomeTab();
       }
     }
 
-    function closeModal(){
-      $('modal').classList.remove('active');
+    function addIncome() {
+      addTransaction('income');
     }
 
-    function saveTransaction(e){
-      e.preventDefault();
-      const id = $('transaction-id').value;
-      const data = {
-        id: id || uid(),
-        type: $('transaction-type').value,
-        title: $('transaction-title').value.trim(),
-        amount: parseAmountValue($('transaction-amount').value),
-        currency: $('transaction-currency').value,
-        category: $('transaction-category').value,
-        date: $('transaction-date').value,
-        time: $('transaction-time').value || '',
-        note: $('transaction-note').value.trim(),
-        recurring: $('transaction-recurring').checked,
-        createdAt: new Date().toISOString()
-      };
+    function closeModal() {
+      document.getElementById('modal-overlay').classList.remove('active');
+    }
+
+    function showSettings() {
+      const modal = document.getElementById('modal-overlay');
+      const content = document.getElementById('modal-content');
       
-      if(id){
-        const idx = userData.transactions.findIndex(t => t.id === id);
-        if(idx !== -1) userData.transactions[idx] = data;
-      }else{
-        userData.transactions.push(data);
-      }
+      content.innerHTML = `
+        <div class="modal-header">
+          <h3>الإعدادات</h3>
+          <button class="close-btn" onclick="closeModal()">✕</button>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <button class="secondary-btn" onclick="logout()">تسجيل الخروج</button>
+        </div>
+      `;
       
-      saveUser();
-      closeModal();
-      renderAll();
+      modal.classList.add('active');
     }
 
-    function deleteTransaction(id){
-      if(!confirm('هل أنت متأكد من حذف هذه العملية؟')) return;
-      userData.transactions = userData.transactions.filter(t => t.id !== id);
-      saveUser();
-      renderAll();
+    function logout() {
+      localStorage.removeItem('currentUser');
+      location.reload();
     }
 
-    function editTransaction(id){
-      const t = userData.transactions.find(x => x.id === id);
-      if(t) openModal(t.type, id);
-    }
-
-    function saveBudget(e){
-      e.preventDefault();
-      userData.budgets[selectedMonth] = {
-        amount: parseAmountValue($('budget-amount').value),
-        currency: $('budget-currency').value
-      };
-      saveUser();
-      closeModal();
-      renderAll();
-    }
-
-    function saveGoal(e){
-      e.preventDefault();
-      if(!userData.goals) userData.goals = [];
-      const id = $('goal-id').value;
-      const data = {
-        id: id || uid(),
-        name: $('goal-name').value.trim(),
-        target: parseAmountValue($('goal-target').value),
-        current: parseAmountValue($('goal-current').value),
-        currency: $('goal-currency').value
-      };
-      if(id){
-        const idx = userData.goals.findIndex(g => g.id === id);
-        if(idx !== -1) userData.goals[idx] = data;
-      }else{
-        userData.goals.push(data);
-      }
-      saveUser();
-      closeModal();
-      renderAll();
-    }
-
-    function deleteGoal(id){
-      if(!confirm('هل تريد حذف هذا الهدف؟')) return;
-      userData.goals = userData.goals.filter(g => g.id !== id);
-      saveUser();
-      renderAll();
-    }
-
-    function editGoal(id){
-      openModal('goal', id);
-    }
-
-    function saveDebt(e){
-      e.preventDefault();
-      if(!userData.debts) userData.debts = [];
-      const id = $('debt-id').value;
-      const data = {
-        id: id || uid(),
-        name: $('debt-name').value.trim(),
-        amount: parseAmountValue($('debt-amount').value),
-        currency: $('debt-currency').value,
-        date: $('debt-date').value || '',
-        note: $('debt-note').value.trim()
-      };
-      if(id){
-        const idx = userData.debts.findIndex(d => d.id === id);
-        if(idx !== -1) userData.debts[idx] = data;
-      }else{
-        userData.debts.push(data);
-      }
-      saveUser();
-      closeModal();
-      renderAll();
-    }
-
-    function collectDebt(id){
-      const debt = userData.debts.find(d => d.id === id);
-      if(!debt) return;
-      if(!confirm(`هل تأكد أنك استلمت ${formatAmount(debt.amount, debt.currency)} من ${debt.name}؟`)) return;
-      
-      userData.transactions.push({
-        id: uid(),
-        type: 'income',
-        title: `استلام من ${debt.name}`,
-        amount: debt.amount,
-        currency: debt.currency,
-        category: 'دخل آخر',
-        date: today(),
-        time: new Date().toTimeString().slice(0,5),
-        note: `تم تحصيل الدين من ${debt.name}`,
-        createdAt: new Date().toISOString(),
-        recurring: false
+    function updateNavigation() {
+      const buttons = document.querySelectorAll('.nav-btn');
+      buttons.forEach((btn, i) => {
+        btn.classList.toggle('active', i === ['home', 'month', 'add', 'wealth', 'settings'].indexOf(currentTab));
       });
-      
-      userData.debts = userData.debts.filter(d => d.id !== id);
-      saveUser();
-      renderAll();
     }
 
-    function deleteDebt(id){
-      if(!confirm('هل تريد حذف هذا الدين؟')) return;
-      userData.debts = userData.debts.filter(d => d.id !== id);
-      saveUser();
-      renderAll();
+    function loadUsers() {
+      const saved = localStorage.getItem('allUsers');
+      allUsers = saved ? JSON.parse(saved) : {};
     }
 
-    function editDebt(id){
-      openModal('debt', id);
+    function showScreen(screenId) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(screenId).classList.add('active');
     }
-
-    // ===== INITIALIZATION =====
-    window.onload = () => {
-      setTimeout(() => {
-        const savedEmail = localStorage.getItem(STORAGE_CURRENT);
-        if(savedEmail){
-          const users = readUsers();
-          if(users[savedEmail]){
-            currentEmail = savedEmail;
-            userData = users[savedEmail].data;
-            selectedMonth = getCurrentMonth();
-            $('splash-screen').classList.remove('active');
-            showPINScreen();
-            return;
-          }
-        }
-        $('splash-screen').classList.remove('active');
-        $('auth-screen').classList.add('active');
-        switchAuth('login');
-      }, 2000);
-    };
   </script>
 </body>
 </html>
