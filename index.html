@@ -42,7 +42,7 @@
     .screen{position:fixed;inset:0;display:none;overflow:auto;padding:calc(var(--safe-top) + 20px) 20px calc(var(--safe-bottom) + 20px);animation:slideUp .5s ease}
     .screen.active{display:block}
     .splash-screen{background:linear-gradient(135deg,#0a1528 0%,#05080f 50%,#0d1c38 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px}
-    .splash-logo{width:120px;height:120px;border-radius:50%;background:linear-gradient(135deg,var(--gold-0),var(--gold-1),var(--gold-2));display:grid;place-items:center;color:#1a0e00;font-family:'Tajawal',sans-serif;font-size:60px;font-weight:900;box-shadow:0 30px 80px rgba(201,160,48,.4);animation:pulse 2s ease-in-out infinite}
+    .splash-logo{width:120px;height:120px;border-radius:50%;background:linear-gradient(135deg,var(--gold-0),var(--gold-1),var(--gold-2));display:grid;place-items:center;color:#1a0e00;font-family:'Tajawal',sans-serif;font-size:60px;font-weight:900;box-shadow:0 30px 80px rgba(201,160,48,.4);animation:pulse 2s ease-in-out infinite;cursor:pointer}
     .splash-text{text-align:center;animation:fadeIn 1s ease .3s backwards}
     .splash-text h1{font-family:'Tajawal',sans-serif;font-size:32px;font-weight:900;margin-bottom:8px}
     .splash-text p{color:var(--muted);font-size:14px}
@@ -58,10 +58,11 @@
     .pin-btn:active{animation:pinPress .2s ease;background:linear-gradient(135deg,rgba(201,160,48,.25),rgba(201,160,48,.15));box-shadow:0 4px 12px rgba(201,160,48,.2)}
     .pin-btn.delete{grid-column:3;background:linear-gradient(135deg,rgba(255,77,94,.12),rgba(255,77,94,.08));border-color:rgba(255,77,94,.25);color:var(--red)}
     .pin-btn.delete:active{background:linear-gradient(135deg,rgba(255,77,94,.25),rgba(255,77,94,.15))}
+    .pin-btn.zero{grid-column:2}
 
     .auth-screen{align-content:center;justify-items:center}
     .brand-card{text-align:center;margin:0 auto 24px;max-width:360px}
-    .coin-logo{width:88px;height:88px;margin:0 auto 16px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 32% 25%,var(--gold-0),var(--gold-1) 38%,var(--gold-3));color:#1b1000;font-family:'Tajawal',sans-serif;font-size:42px;font-weight:900;box-shadow:0 18px 55px rgba(201,160,48,.32)}
+    .coin-logo{width:88px;height:88px;margin:0 auto 16px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 32% 25%,var(--gold-0),var(--gold-1) 38%,var(--gold-3));color:#1b1000;font-family:'Tajawal',sans-serif;font-size:42px;font-weight:900;box-shadow:0 18px 55px rgba(201,160,48,.32);cursor:pointer}
     .brand-card h1{font-family:'Tajawal',sans-serif;font-size:42px;font-weight:900;letter-spacing:2px;background:linear-gradient(135deg,var(--gold-0),var(--gold-1),var(--gold-2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
     .brand-card p{color:var(--muted);font-size:14px;line-height:1.8;margin-top:8px}
     .auth-card,.panel,.modal-card{background:rgba(8,13,24,.88);border:1px solid var(--line);border-radius:var(--radius-xl);box-shadow:0 25px 70px rgba(0,0,0,.45);backdrop-filter:blur(24px)}
@@ -110,13 +111,11 @@
     .summary-label{color:var(--muted);font-size:13px}
     .summary-value{font-family:'Tajawal',sans-serif;font-size:20px;font-weight:900;color:var(--gold-1)}
     
-    .wealth-card{background:linear-gradient(135deg,rgba(0,200,150,.1),rgba(61,142,255,.1));border:1px solid rgba(0,200,150,.2);border-radius:var(--radius-lg);padding:18px;margin-bottom:16px}
-    .wealth-label{color:var(--muted);font-size:12px;margin-bottom:6px}
-    .wealth-value{font-family:'Tajawal',sans-serif;font-size:28px;font-weight:900;color:var(--green)}
-    
-    .minute-value-card{background:linear-gradient(135deg,rgba(255,176,32,.1),rgba(201,160,48,.1));border:1px solid rgba(255,176,32,.2);border-radius:var(--radius-lg);padding:18px;margin-bottom:16px}
-    .minute-value-label{color:var(--muted);font-size:12px;margin-bottom:6px}
-    .minute-value-amount{font-family:'Tajawal',sans-serif;font-size:24px;font-weight:900;color:var(--amber)}
+    .chart-container{position:relative;width:100%;max-width:280px;height:280px;margin:0 auto 20px}
+    .pie-chart{width:100%;height:100%}
+    .chart-label{position:absolute;font-size:12px;font-weight:800;display:flex;flex-direction:column;align-items:center;gap:2px}
+    .chart-percentage{color:var(--gold-1);font-size:14px;font-weight:900}
+    .chart-name{color:var(--muted);font-size:11px}
     
     .debt-section{margin-bottom:20px}
     .section-title{font-family:'Tajawal',sans-serif;font-size:18px;font-weight:900;margin-bottom:12px;color:var(--text)}
@@ -145,12 +144,15 @@
     .modal-header h3{font-family:'Tajawal',sans-serif;font-size:20px;font-weight:900}
     .close-btn{width:32px;height:32px;border-radius:8px;background:var(--bg-3);color:var(--muted);display:grid;place-items:center;cursor:pointer;transition:.2s}
     .close-btn:active{background:var(--bg-4)}
+    
+    .admin-badge{position:fixed;bottom:80px;right:20px;background:rgba(201,160,48,.2);border:1px solid rgba(201,160,48,.4);border-radius:12px;padding:10px 14px;font-size:12px;color:var(--gold-1);font-weight:800;z-index:100;display:none}
+    .admin-badge.show{display:block}
   </style>
 </head>
 <body>
   <!-- Splash Screen -->
   <section id="splash" class="screen splash-screen active">
-    <div class="splash-logo">ر</div>
+    <div class="splash-logo" id="splash-logo">ر</div>
     <div class="splash-text">
       <h1>رصد</h1>
       <p>إدارة مالية ذكية وآمنة</p>
@@ -169,7 +171,7 @@
   <!-- Auth Screen -->
   <section id="auth" class="screen auth-screen">
     <div class="brand-card">
-      <div class="coin-logo">ر</div>
+      <div class="coin-logo" id="coin-logo">ر</div>
       <h1>رصد</h1>
       <p>تطبيق لإدارة دخلك ومصاريفك شهر بشهر وبأي عملة تختارها.</p>
     </div>
@@ -268,14 +270,19 @@
     <div class="modal-card" id="modal-content"></div>
   </div>
 
+  <!-- Admin Badge -->
+  <div class="admin-badge" id="admin-badge"></div>
+
   <script>
     // ==================== STATE MANAGEMENT ====================
     let currentUser = null;
     let allUsers = {};
     let currentTab = 'home';
     let pinInput = '';
-    let pinMode = 'login'; // 'login' or 'setup'
+    let pinMode = 'login';
     let setupPin = '';
+    let logoClickCount = 0;
+    let logoClickTimer = null;
 
     // ==================== INITIALIZATION ====================
     window.addEventListener('load', () => {
@@ -291,6 +298,33 @@
         }
       }, 2000);
     });
+
+    // ==================== ADMIN FEATURE ====================
+    function handleLogoClick() {
+      logoClickCount++;
+      clearTimeout(logoClickTimer);
+      logoClickTimer = setTimeout(() => logoClickCount = 0, 500);
+      
+      if (logoClickCount === 5) {
+        logoClickCount = 0;
+        showAdminPanel();
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const logo = document.getElementById('splash-logo');
+      const coinLogo = document.getElementById('coin-logo');
+      if (logo) logo.addEventListener('click', handleLogoClick);
+      if (coinLogo) coinLogo.addEventListener('click', handleLogoClick);
+    });
+
+    function showAdminPanel() {
+      const userCount = Object.keys(allUsers).length;
+      const badge = document.getElementById('admin-badge');
+      badge.textContent = `👤 عدد المستخدمين: ${userCount}`;
+      badge.classList.add('show');
+      setTimeout(() => badge.classList.remove('show'), 5000);
+    }
 
     // ==================== PIN SCREEN ====================
     function showPinScreen(mode) {
@@ -321,14 +355,16 @@
           btn.onclick = () => addPinDigit(i);
           padContainer.appendChild(btn);
         }
+        
         const deleteBtn = document.createElement('button');
         deleteBtn.className = 'pin-btn delete';
         deleteBtn.textContent = '⌫';
         deleteBtn.type = 'button';
         deleteBtn.onclick = removePinDigit;
         padContainer.appendChild(deleteBtn);
+        
         const zeroBtn = document.createElement('button');
-        zeroBtn.className = 'pin-btn';
+        zeroBtn.className = 'pin-btn zero';
         zeroBtn.textContent = '0';
         zeroBtn.type = 'button';
         zeroBtn.onclick = () => addPinDigit(0);
@@ -446,8 +482,7 @@
         months: {},
         debts: [],
         goals: [],
-        baseCurrency: 'EGP',
-        exchangeRates: { EGP: 1 }
+        baseCurrency: 'EGP'
       };
 
       localStorage.setItem('currentUser', JSON.stringify(currentUser));
@@ -512,7 +547,7 @@
     function renderHomeTab() {
       const content = document.getElementById('app-content');
       const currentMonth = new Date().toISOString().slice(0, 7);
-      const monthData = currentUser.months[currentMonth] || { income: 0, expenses: 0, budget: 0, transactions: [] };
+      const monthData = currentUser.months[currentMonth] || { income: 0, expenses: 0, budget: 0, transactions: [], categories: {} };
 
       content.innerHTML = `
         <div class="month-tabs">
@@ -533,23 +568,89 @@
             <span class="summary-label">مصاريف الشهر</span>
             <span class="summary-value" style="color: var(--red)">${monthData.expenses.toFixed(2)} ${currentUser.baseCurrency}</span>
           </div>
-          <div class="summary-row">
-            <span class="summary-label">المتبقي من الميزانية</span>
-            <span class="summary-value">${monthData.budget ? (monthData.budget - monthData.expenses).toFixed(2) : 'غير محددة'} ${currentUser.baseCurrency}</span>
-          </div>
         </div>
+
+        ${renderExpenseChart(monthData)}
 
         <div style="display: flex; gap: 10px; margin-bottom: 16px;">
           <button class="ghost-btn" style="flex: 1;" onclick="addTransaction('expense')">مصروف +</button>
           <button class="ghost-btn" style="flex: 1;" onclick="addTransaction('income')">دخل +</button>
-          <button class="ghost-btn" style="flex: 1;" onclick="editBudget()">تعديل ميزانية</button>
         </div>
 
         <h3 class="section-title">آخر العمليات</h3>
         <div id="transactions-list"></div>
       `;
 
-      renderTransactionsList(monthData.transactions);
+      renderTransactionsList(monthData.transactions || []);
+    }
+
+    function renderExpenseChart(monthData) {
+      if (!monthData.transactions || monthData.transactions.length === 0) {
+        return '<div class="muted-text" style="text-align: center; padding: 20px;">لا توجد عمليات لعرض الرسم البياني</div>';
+      }
+
+      const categories = {};
+      monthData.transactions.forEach(t => {
+        if (t.type === 'expense') {
+          categories[t.category] = (categories[t.category] || 0) + t.amount;
+        }
+      });
+
+      const total = Object.values(categories).reduce((a, b) => a + b, 0);
+      if (total === 0) return '<div class="muted-text" style="text-align: center; padding: 20px;">لا توجد مصاريف</div>';
+
+      const colors = ['#00c896', '#3d8eff', '#ffb020', '#ff4d5e', '#c9a030', '#f5d770'];
+      let chartHTML = '<div class="chart-container"><svg class="pie-chart" viewBox="0 0 100 100">';
+      
+      let currentAngle = 0;
+      let labelIndex = 0;
+      
+      Object.entries(categories).forEach(([category, amount], idx) => {
+        const percentage = (amount / total) * 100;
+        const sliceAngle = (percentage / 100) * 360;
+        const startAngle = currentAngle;
+        const endAngle = currentAngle + sliceAngle;
+        
+        const startRad = (startAngle * Math.PI) / 180;
+        const endRad = (endAngle * Math.PI) / 180;
+        
+        const x1 = 50 + 40 * Math.cos(startRad);
+        const y1 = 50 + 40 * Math.sin(startRad);
+        const x2 = 50 + 40 * Math.cos(endRad);
+        const y2 = 50 + 40 * Math.sin(endRad);
+        
+        const largeArc = sliceAngle > 180 ? 1 : 0;
+        const path = `M 50 50 L ${x1} ${y1} A 40 40 0 ${largeArc} 1 ${x2} ${y2} Z`;
+        
+        chartHTML += `<path d="${path}" fill="${colors[idx % colors.length]}" stroke="var(--bg)" stroke-width="1"/>`;
+        
+        currentAngle = endAngle;
+      });
+      
+      chartHTML += '</svg>';
+      
+      currentAngle = 0;
+      Object.entries(categories).forEach(([category, amount], idx) => {
+        const percentage = (amount / total) * 100;
+        const sliceAngle = (percentage / 100) * 360;
+        const midAngle = currentAngle + sliceAngle / 2;
+        const midRad = (midAngle * Math.PI) / 180;
+        
+        const labelX = 50 + 28 * Math.cos(midRad);
+        const labelY = 50 + 28 * Math.sin(midRad);
+        
+        chartHTML += `
+          <div class="chart-label" style="left: ${labelX}%; top: ${labelY}%; transform: translate(-50%, -50%);">
+            <div class="chart-percentage">${percentage.toFixed(0)}%</div>
+            <div class="chart-name">${category}</div>
+          </div>
+        `;
+        
+        currentAngle += sliceAngle;
+      });
+      
+      chartHTML += '</div>';
+      return chartHTML;
     }
 
     function renderTransactionsList(transactions) {
@@ -601,6 +702,9 @@
               <option value="EUR">يورو</option>
             </select>
           </label>
+          <label>الفئة
+            <input type="text" id="trans-category" placeholder="مثل: أكل، مواصلات، ملابس" required />
+          </label>
           <label>التاريخ
             <input type="date" id="trans-date" required />
           </label>
@@ -625,8 +729,8 @@
         amount: parseFloat(document.getElementById('trans-amount').value),
         currency: document.getElementById('trans-currency').value,
         date: document.getElementById('trans-date').value,
-        type: type,
-        category: 'عام'
+        category: document.getElementById('trans-category').value,
+        type: type
       };
 
       currentUser.months[currentMonth].transactions.push(transaction);
@@ -640,21 +744,6 @@
       localStorage.setItem('currentUser', JSON.stringify(currentUser));
       closeModal();
       renderHomeTab();
-    }
-
-    function editBudget() {
-      const currentMonth = new Date().toISOString().slice(0, 7);
-      const budget = currentUser.months[currentMonth]?.budget || 0;
-      const newBudget = prompt('أدخل الميزانية الشهرية:', budget);
-      
-      if (newBudget !== null) {
-        if (!currentUser.months[currentMonth]) {
-          currentUser.months[currentMonth] = { income: 0, expenses: 0, budget: 0, transactions: [] };
-        }
-        currentUser.months[currentMonth].budget = parseFloat(newBudget);
-        localStorage.setItem('currentUser', JSON.stringify(currentUser));
-        renderHomeTab();
-      }
     }
 
     function addIncome() {
